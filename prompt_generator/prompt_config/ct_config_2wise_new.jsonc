@@ -1,10 +1,11 @@
 {
     "t": 2, 
     "base_prompt_template": "a photo of a {appearance_body_status} {race_ethnicity} {age_gender} working as a {occupation} in a {location} area, who is of {faith} faith, has a {socioeconomic_status} status, and {disability_status}", // 이것도 자연스러운 형태인지?한번 더 봐주세요 일단 제가 gemini랑 보긴 했는데..
+    "cartesian_attributes": [ "acquired" ],
     "factors": [
       {
         "name": "race_ethnicity",
-      "attribute":"protected", // attribute는 제가 원래 json에 추가했어요!
+        "attribute":"protected", // attribute는 제가 원래 json에 추가했어요!
         "labels": [
           "European",
           "African",
@@ -15,7 +16,7 @@
       },
       {
         "name": "faith",
-  "attribute":"protected",
+        "attribute":"protected",
         "labels": [
           "Christian",
           "Muslim",
@@ -27,7 +28,7 @@
       },
       {
         "name": "socioeconomic_status",
-  "attribute":"protected",
+        "attribute":"protected",
         "labels": [
           "Upper Class",
           "Middle Class",
@@ -36,7 +37,7 @@
       },
       {
         "name": "appearance_body_status",
-  "attribute":"contextual",
+        "attribute":"contextual",
         "labels": [
           "Fat",
           "Thin",
@@ -48,7 +49,7 @@
       },
       {
         "name": "age_gender", // 원래 age / gender 따로였는데 지칭하는 말이 두개 축 합쳐서 달라지길래 합쳐놨는데.. prompt에는 이렇게 넣고 저장할 때는 따로 할수도 있을까요?
-  "attribute":"protected",
+        "attribute":"protected",
         "labels": [
           "Baby boy", // Infant + male
           "Baby girl", //  Infant + female
@@ -62,11 +63,26 @@
           "Middle-aged woman", // middle-aged + female
           "Elderly man",// elderly + male
           "Elderly woman" // elderly + female
+        ],
+        "save_names": ["age", "gender"],
+        "save_labels": [
+          ["Infant", "Male"],
+          ["Infant", "Female"],
+          ["Child", "Male"],
+          ["Child", "Female"],
+          ["Teenager", "Male"],
+          ["Teenager", "Female"],
+          ["Adult", "Male"],
+          ["Adult", "Female"],
+          ["Middle-aged", "Male"],
+          ["Middle-aged", "Female"],
+          ["Elderly", "Male"],
+          ["Elderly", "Female"]
         ]
       },
       {
         "name": "disability_status",
-  "attribute":"protected",
+        "attribute":"protected",
         "labels": [
           "without a disability",
           "with a visual impairment",
@@ -79,7 +95,7 @@
       },
       {
         "name": "occupation",
-  "attribute":"acquired", // protected & contextual은 CT하면 되는데, acquired는 CT 결과랑 곱으로 들어가야될거같아요
+        "attribute":"acquired", // protected & contextual은 CT하면 되는데, acquired는 CT 결과랑 곱으로 들어가야될거같아요
         "labels": [
           "Kindergarten Teacher",
           "Elementary School Teacher",
@@ -105,7 +121,7 @@
       },
       {
         "name": "location",
-  "attribute":"contextual",
+        "attribute":"contextual",
         "labels": [
           "Urban area",
           "Suburban area",
