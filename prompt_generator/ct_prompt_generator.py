@@ -123,32 +123,24 @@ class CTPromptGenerator:
     def _count_coverage(self, assignment: List[str], uncovered: Set[Tuple], t: int) -> int:
         count = 0
         
-        for factor_indices, label_combo in uncovered:
-            match = True
-            for i, factor_idx in enumerate(factor_indices):
-                if assignment[factor_idx] != label_combo[i]:
-                    match = False
-                    break
+        # 현재 assignment로부터 모든 t-tuple 생성하고 uncovered에서 O(1) lookup
+        for factor_indices in itertools.combinations(range(len(assignment)), t):
+            label_combo = tuple(assignment[i] for i in factor_indices)
             
-            if match:
+            if (factor_indices, label_combo) in uncovered:
                 count += 1
         
         return count
     
     def _remove_covered(self, uncovered: Set[Tuple], assignment: List[str], t: int) -> Set[Tuple]:
-        new_uncovered = set()
+        # 현재 assignment로 커버되는 tuple들을 생성하고 제거
+        covered_tuples = set()
+        for factor_indices in itertools.combinations(range(len(assignment)), t):
+            label_combo = tuple(assignment[i] for i in factor_indices)
+            covered_tuples.add((factor_indices, label_combo))
         
-        for factor_indices, label_combo in uncovered:
-            match = True
-            for i, factor_idx in enumerate(factor_indices):
-                if assignment[factor_idx] != label_combo[i]:
-                    match = False
-                    break
-            
-            if not match:
-                new_uncovered.add((factor_indices, label_combo))
-        
-        return new_uncovered
+        # uncovered에서 covered_tuples 제거
+        return uncovered - covered_tuples
     
     def generate_prompts(self) -> Tuple[List[str], List[Dict[str, str]]]:
         test_cases = self._generate_greedy_covering(self.t)
