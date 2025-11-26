@@ -13,6 +13,10 @@ class CTPromptGenerator:
             self.config = jsonc.load(f)
         
         cartesian_attributes = self.config.get('cartesian_attributes', [])
+        split_attributes = self.config.get('split_attributes', [])
+        split_attribute_labels = self.config.get('split_attribute_labels', [])
+        merged_attributes = self.config.get('merged_attributes', [])
+        merged_attribute_labels = self.config.get('merged_attribute_labels', [])
 
         self.factors = self.config['factors']
         self.cartesian_factors = [f for f in self.factors if f['attribute'] in cartesian_attributes]
@@ -23,9 +27,18 @@ class CTPromptGenerator:
         self.non_cartesian_factor_names = [f['name'] for f in self.factors if f['attribute'] not in cartesian_attributes]
         self.non_cartesian_factor_labels = [f['labels'] for f in self.factors if f['attribute'] not in cartesian_attributes]
 
-        self.alias_factors = {}
-        for alias_factor in [f for f in self.factors if 'save_names' in f]:
-            self.alias_factors[alias_factor['name']] = alias_factor
+        self.split_attributes = {
+            tuple(split_attributes[i]): split_attribute_labels[i]
+            for i in range(len(split_attributes))
+        }
+        self.merged_attributes = {
+            merged_attributes[i]: merged_attribute_labels[i]
+            for i in range(len(merged_attributes))
+        }
+        self.split_merged_attribute_map = {
+            tuple(split_attributes[i]): merged_attributes[i]
+            for i in range(len(split_attributes))
+        }
 
         print(f"CT Prompt Generator: {self.t}-wise Coverage")
         print(f"Factors: {len(self.factors)}")
@@ -146,8 +159,26 @@ class CTPromptGenerator:
         test_cases = self._generate_greedy_covering(self.t)
         prompts = []
         for assignment in test_cases:
+            merged_assignment = copy.copy(assignment)
+
+            for split_attributes, labels in self.split_attributes.items():
+                if all(attribute in assignment for attribute in split_attributes):
+                    split_attribute_label = [assignment[attribute] for attribute in split_attributes]
+                    split_attribute_index = -1
+
+                    for label_index in range(len(labels)):
+                        if labels[label_index] == split_attribute_label:
+                            split_attribute_index = label_index
+                            break
+
+                    merged_attribute_name = self.split_merged_attribute_map[split_attributes]
+
+                    for attribute in split_attributes:
+                        del merged_assignment[attribute]
+
+                    merged_assignment[merged_attribute_name] = self.merged_attributes[merged_attribute_name][split_attribute_index]
             try:
-                prompt = self.template.format(**assignment)
+                prompt = self.template.format(**merged_assignment)
                 prompts.append(prompt)
             except KeyError as e:
                 raise ValueError(f"Template error: {e}")
@@ -165,25 +196,25 @@ class CTPromptGenerator:
         }
         
         for idx, (prompt, assignment) in enumerate(zip(prompts, assignments)):
-            aliased_assignment = copy.copy(assignment)
-
-            for name, factor in assignment.items():
-                if name in self.alias_factors:
-                    del aliased_assignment[name]
-
-                    for i in range(len(self.alias_factors[name]['labels'])):
-                        aliased_factor = self.alias_factors[name]['labels'][i]
-                        saved_name = self.alias_factors[name]['save_names']
-                        saved_label = self.alias_factors[name]['save_labels'][i]
-
-                        if factor == aliased_factor:
-                            for aliased_name, aliased_label in zip(saved_name, saved_label):
-                                aliased_assignment[aliased_name] = aliased_label
-                            break
+            # aliased_assignment = copy.copy(assignment)
+            #
+            # for name, factor in assignment.items():
+            #     if name in self.alias_factors:
+            #         del aliased_assignment[name]
+            #
+            #         for i in range(len(self.alias_factors[name]['labels'])):
+            #             aliased_factor = self.alias_factors[name]['labels'][i]
+            #             saved_name = self.alias_factors[name]['save_names']
+            #             saved_label = self.alias_factors[name]['save_labels'][i]
+            #
+            #             if factor == aliased_factor:
+            #                 for aliased_name, aliased_label in zip(saved_name, saved_label):
+            #                     aliased_assignment[aliased_name] = aliased_label
+            #                 break
 
             output["test_cases"].append({
                 "id": idx,
-                "assignment": aliased_assignment,
+                "assignment": assignment,
                 "prompt": prompt
             })
         

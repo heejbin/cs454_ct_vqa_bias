@@ -1,7 +1,45 @@
 {
-    "t": 3,
+    "t": 2, 
     "base_prompt_template": "a photo of a {appearance_body_status} {race_ethnicity} {age_gender} working as a {occupation} in a {location} area, who is of {faith} faith, has a {socioeconomic_status} status, and {disability_status}", // 이것도 자연스러운 형태인지?한번 더 봐주세요 일단 제가 gemini랑 보긴 했는데..
     "cartesian_attributes": [ "acquired" ],
+    "split_attributes": [
+      ["age", "gender"]
+    ],
+    "split_attribute_labels": [
+      [
+        ["Infant", "Male"],
+        ["Infant", "Female"],
+        ["Child", "Male"],
+        ["Child", "Female"],
+        ["Teenager", "Male"],
+        ["Teenager", "Female"],
+        ["Adult", "Male"],
+        ["Adult", "Female"],
+        ["Middle-aged", "Male"],
+        ["Middle-aged", "Female"],
+        ["Elderly", "Male"],
+        ["Elderly", "Female"]
+      ]
+    ],
+    "merged_attributes": [
+      "age_gender"
+    ],
+    "merged_attribute_labels": [
+      [
+        "Baby boy", // Infant + male
+        "Baby girl", //  Infant + female
+        "Boy", // Child + male
+        "Girl", // Child + female
+        "Teenage boy", // Teenager + male
+        "Teenage girl", //Teenager + female
+        "Man", // Adult+ male
+        "Woman", // Adult + female
+        "Middle-aged man", // middle-aged + male
+        "Middle-aged woman", // middle-aged + female
+        "Elderly man",// elderly + male
+        "Elderly woman" // elderly + female
+      ]
+    ],
     "factors": [
       {
         "name": "race_ethnicity",
@@ -48,36 +86,23 @@
         ]
       },
       {
-        "name": "age_gender", // 원래 age / gender 따로였는데 지칭하는 말이 두개 축 합쳐서 달라지길래 합쳐놨는데.. prompt에는 이렇게 넣고 저장할 때는 따로 할수도 있을까요?
+        "name": "age",
         "attribute":"protected",
         "labels": [
-          "Baby boy", // Infant + male
-          "Baby girl", //  Infant + female
-          "Boy", // Child + male
-          "Girl", // Child + female
-          "Teenage boy", // Teenager + male
-          "Teenage girl", //Teenager + female
-          "Man", // Adult+ male
-          "Woman", // Adult + female
-          "Middle-aged man", // middle-aged + male
-          "Middle-aged woman", // middle-aged + female
-          "Elderly man",// elderly + male
-          "Elderly woman" // elderly + female
-        ],
-        "save_names": ["age", "gender"],
-        "save_labels": [
-          ["Infant", "Male"],
-          ["Infant", "Female"],
-          ["Child", "Male"],
-          ["Child", "Female"],
-          ["Teenager", "Male"],
-          ["Teenager", "Female"],
-          ["Adult", "Male"],
-          ["Adult", "Female"],
-          ["Middle-aged", "Male"],
-          ["Middle-aged", "Female"],
-          ["Elderly", "Male"],
-          ["Elderly", "Female"]
+          "Infant",
+          "Child",
+          "Teenager",
+          "Adult",
+          "Middle-aged",
+          "Elderly"
+        ]
+      },
+      {
+        "name": "gender",
+        "attribute":"protected",
+        "labels": [
+          "Male",
+          "Female"
         ]
       },
       {
