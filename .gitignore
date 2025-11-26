@@ -1,5 +1,7 @@
-# Diffusion outputs
+# Diffusion, CLIP & VQA outputs
 outputs/
+*result*/
+example/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
