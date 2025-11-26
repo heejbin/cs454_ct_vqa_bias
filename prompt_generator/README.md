@@ -28,18 +28,42 @@ python ct_prompt_generator.py prompt_config/ct_config_4wise.json prompt/ct_promp
 
 Configuration files (`ct_config_*.json`) have the following structure:
 
-```json
+```jsonc
 {
   "t": 2,
   "base_prompt_template": "A photo of a {factor1} who is {factor2}",
+  "cartesian_attributes": [...], // attribute that will do cartesian multiple
+  "split_attributes": [
+    [..., ...] // split attribute names
+  ],
+  "split_attribute_labels": [
+    [..., ...] // split attribute label 1
+    [..., ...] // split attribute label 2
+    ...
+  ],
+  "merged_attributes": [
+    ... // merged attribute name, index is same to split_attributes 
+  ],
+  "merged_attribute_labels": [
+    ..., // merged attribute label 1
+    ..., // merged attribute label 2
+    ...
+  ],
   "factors": [
     {
       "name": "factor1",
-      "labels": ["label1", "label2", "label3"]
+      "labels": [
+        "label1",
+        "label2",
+        "label3"
+      ]
     },
     {
       "name": "factor2",
-      "labels": ["labelA", "labelB"]
+      "labels": [
+        "labelA",
+        "labelB"
+      ]
     }
   ]
 }
@@ -51,7 +75,7 @@ Configuration files (`ct_config_*.json`) have the following structure:
 
 ## Output File Format
 
-```json
+```jsonc
 {
   "t": 2,
   "base_prompt_template": "A photo of a {factor1} who is {factor2}",
