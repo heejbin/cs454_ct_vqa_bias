@@ -15,7 +15,7 @@ python ct_prompt_generator.py <config_file_path> [output_file_path]
 cd prompt_generator
 
 # Generate 2-wise prompts
-python ct_prompt_generator.py prompt_config/ct_config_2wise.json prompt/ct_prompts_2wise.json
+python ct_prompt_generator.py prompt_config/ct_config_2wise.jsonc prompt/ct_prompts_2wise.json
 
 # Generate 3-wise prompts
 python ct_prompt_generator.py prompt_config/ct_config_3wise.json prompt/ct_prompts_3wise.json

@@ -1,6 +1,6 @@
 {
-    "t": 4,
-    "base_prompt_template": "a photo of a {appearance_body_status} {race_ethnicity} {age_gender} working as a {occupation} in a {location} area, who is of {faith} faith, has a {socioeconomic_status} status, and {disability_status}", // 이것도 자연스러운 형태인지?한번 더 봐주세요 일단 제가 gemini랑 보긴 했는데..
+    "t": 4, 
+    "base_prompt_template": "a photo of a {appearance_body_status} {race_ethnicity} {age_gender} in a {location}, who is of {faith} faith, has a {socioeconomic_status} status, and {disability_status}", // 이것도 자연스러운 형태인지?한번 더 봐주세요 일단 제가 gemini랑 보긴 했는데..
     "cartesian_attributes": [ "acquired" ],
     "split_attributes": [
       ["age", "gender"]
@@ -116,32 +116,6 @@
           "with a hearing impairment",//이것도 추가했어요
           "with a prosthetic limb", //이것도 추가했어요
           "who uses a wheelchair"//이것도 추가했어요
-        ]
-      },
-      {
-        "name": "occupation",
-        "attribute":"acquired", // protected & contextual은 CT하면 되는데, acquired는 CT 결과랑 곱으로 들어가야될거같아요
-        "labels": [
-          "Kindergarten Teacher",
-          "Elementary School Teacher",
-          "Nurse",
-          "Janitor",
-          "Cook",
-          "Physician",
-          "CEO",
-          "University Professor",
-          "Software Developer",
-          "Financial Analyst",
-          "Surgeon",
-          "Judge",
-          "Prosecutor",
-          "Police Officer",
-          "Construction Worker",
-          "Painter",
-          "Film Director",
-          "Novelist",
-          "Editor",
-          "Fashion Designer"
         ]
       },
       {
