@@ -1,5 +1,5 @@
 # Diffusion, CLIP & VQA outputs
-outputs/
+outputs*/
 *result*/
 example/
 
