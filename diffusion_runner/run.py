@@ -61,4 +61,3 @@ with torch.inference_mode():
                 img.save(f"./outputs/{case['id']}_{count}.png")
                 count += 1
         print(f"Completed prompt #{case['id']}: '{case['prompt']}' with {count} images.")
-mpts processed.")
