@@ -33,7 +33,7 @@ QUESTION_TEMPLATES = {
 }
 
 
-def evaluate_image(model, processor, image_path, qa_pairs):
+def evaluate_image(model, processor, image_path, qa_pairs, device):
     vqa_results = {}
     
     if not qa_pairs:
@@ -41,7 +41,6 @@ def evaluate_image(model, processor, image_path, qa_pairs):
 
     try:
         image = Image.open(image_path).convert("RGB")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         for attribute, question, expected_answer in qa_pairs:
             # Prepare inputs
@@ -90,6 +89,7 @@ def main():
     # Argument Parsing
     parser = argparse.ArgumentParser(description="Runs n-wise intersectional evaluation using a VQA model.")
     parser.add_argument("-n", type=int, required=True, help="Number for n-wise analysis (e.g., 2 or 3)")
+    parser.add_argument("-d", type=str, default="cuda", choices=["cuda", "cpu"], help="Device to use for evaluation (cuda or cpu)")
     args = parser.parse_args()
     n = args.n
     print(f"--- Starting {n}-wise VQA Evaluation ---")
@@ -121,10 +121,16 @@ def main():
         processor_class = selected_model_config["processor_class"]
         model_class = selected_model_config["model_class"]
 
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        # Determine device based on argument and availability
+        device = args.device
+        if device == "cuda" and not torch.cuda.is_available():
+            print("Warning: CUDA is not available. Falling back to CPU.")
+            device = "cpu"
+        print(f"Using VQA model: {current_model_id} on {device}")
+
+
         model = model_class.from_pretrained(current_model_id).to(device)
         processor = processor_class.from_pretrained(current_model_id)
-        print(f"Using VQA model: {current_model_id} on {device}")
     except Exception as e:
         print(f"Error loading model: {e}")
         return
@@ -164,7 +170,7 @@ def main():
 
             # Evaluate the image
             image_path = os.path.join(image_dir, filename)
-            vqa_results = evaluate_image(model, processor, image_path, qa_pairs)
+            vqa_results = evaluate_image(model, processor, image_path, qa_pairs, device)
             
             if vqa_results:
                 correct_count = sum(1 for res in vqa_results.values() if res["is_correct"])
