@@ -5,8 +5,8 @@ from PIL import Image
 from transformers import ViltProcessor, ViltForQuestionAnswering, BlipProcessor, BlipForQuestionAnswering
 import torch
 
-PROMPT_DIR = "../prompt_generator/prompt" 
-OUTPUT_ROOT_DIR = "../outputs" 
+PROMPT_DIR = "prompt_generator/prompt" 
+OUTPUT_ROOT_DIR = "outputs" 
 RESULT_DIR = "vqa_results"
 
 MODEL_LIST = {
@@ -52,15 +52,28 @@ def evaluate_image(model, processor, image_path, qa_pairs):
                 outputs = model(**encoding)
             
             logits = outputs.logits
+            
+            # Get prediction
             idx = logits.argmax(-1).item()
             predicted_answer = model.config.id2label[idx]
-
             is_correct = (predicted_answer.lower() == expected_answer.lower())
+
+            # Calculate "yes" probability
+            probabilities = torch.nn.functional.softmax(logits, dim=-1)[0]
+            yes_id = -1
+            # Handle both 'yes' and 'Yes' as possible labels
+            if 'yes' in model.config.label2id:
+                yes_id = model.config.label2id['yes']
+            elif 'Yes' in model.config.label2id:
+                yes_id = model.config.label2id['Yes']
             
+            yes_probability = probabilities[yes_id].item() if yes_id != -1 else 0.0
+
             vqa_results[attribute] = {
                 "question": question,
                 "predicted_answer": predicted_answer,
-                "is_correct": is_correct
+                "is_correct": is_correct,
+                "yes_probability": yes_probability
             }
         
         return vqa_results
@@ -78,7 +91,7 @@ def main():
     parser = argparse.ArgumentParser(description="Runs n-wise intersectional evaluation using a VQA model.")
     parser.add_argument("-n", type=int, required=True, help="Number for n-wise analysis (e.g., 2 or 3)")
     args = parser.parse_args()
-    n = args.n_wise
+    n = args.n
     print(f"--- Starting {n}-wise VQA Evaluation ---")
 
     # Path Generation
@@ -136,11 +149,15 @@ def main():
 
             # Generate Question-Answer pairs
             qa_pairs = []
+            
             for attribute, value in case_info['assignment'].items():
                 template = QUESTION_TEMPLATES.get(attribute, QUESTION_TEMPLATES["default"])
                 question = template.format(value=value)
                 qa_pairs.append((attribute, question, "yes")) # Attribute, Question, Expected Answer
-            
+
+            full_prompt_question = f"Is the image showing '{case_info['prompt']}'?"
+            qa_pairs.append(("full_prompt_check", full_prompt_question, "yes"))
+
             if not qa_pairs:
                 print(f"Warning: No questions could be generated for {filename}.")
                 continue
@@ -154,6 +171,12 @@ def main():
                 total_questions = len(vqa_results)
                 accuracy = (correct_count / total_questions) * 100 if total_questions > 0 else 0
 
+                # Calculate average yes_probability
+                probabilities = [
+                    res["yes_probability"] for attr, res in vqa_results.items() if attr != "full_prompt_check"
+                ]
+                avg_yes_probability = sum(probabilities) / len(probabilities) if probabilities else 0.0
+
                 result_object = {
                     "image_id": case_id,
                     "image_filename": filename,
@@ -164,6 +187,7 @@ def main():
                         "accuracy": accuracy,
                         "correct_count": correct_count,
                         "total_questions": total_questions,
+                        "average_yes_probability": avg_yes_probability
                     }
                 }
                 all_results.append(result_object)
