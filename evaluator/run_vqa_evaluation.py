@@ -122,12 +122,11 @@ def main():
         model_class = selected_model_config["model_class"]
 
         # Determine device based on argument and availability
-        device = args.d
+        device = args.device
         if device == "cuda" and not torch.cuda.is_available():
             print("Warning: CUDA is not available. Falling back to CPU.")
             device = "cpu"
         print(f"Using VQA model: {current_model_id} on {device}")
-
 
         model = model_class.from_pretrained(current_model_id).to(device)
         processor = processor_class.from_pretrained(current_model_id)
@@ -162,6 +161,9 @@ def main():
                 question = template.format(value=value)
                 qa_pairs.append((attribute, question, "yes")) # Attribute, Question, Expected Answer
 
+            full_prompt_question = f"Is the image showing '{case_info['prompt']}'?"
+            qa_pairs.append(("full_prompt_check", full_prompt_question, "yes"))
+
             if not qa_pairs:
                 print(f"Warning: No questions could be generated for {filename}.")
                 continue
@@ -177,7 +179,7 @@ def main():
 
                 # Calculate average yes_probability
                 probabilities = [
-                    res["yes_probability"] for res in vqa_results.values()
+                    res["yes_probability"] for attr, res in vqa_results.items() if attr != "full_prompt_check"
                 ]
                 avg_yes_probability = sum(probabilities) / len(probabilities) if probabilities else 0.0
 
