@@ -5,9 +5,9 @@ from PIL import Image
 from transformers import ViltProcessor, ViltForQuestionAnswering, BlipProcessor, BlipForQuestionAnswering
 import torch
 
-PROMPT_DIR = "../prompt_generator/prompt" 
-OUTPUT_ROOT_DIR = "../outputs" 
-RESULT_DIR = "vqa_results"
+PROMPT_DIR = "prompt_generator/prompt" 
+OUTPUT_ROOT_DIR = "./" 
+RESULT_DIR = "evaluator/vqa_results"
 
 MODEL_LIST = {
     "vilt-base": {
@@ -33,7 +33,7 @@ QUESTION_TEMPLATES = {
 }
 
 
-def evaluate_image(model, processor, image_path, qa_pairs):
+def evaluate_image(model, processor, image_path, qa_pairs, device):
     vqa_results = {}
     
     if not qa_pairs:
@@ -41,7 +41,6 @@ def evaluate_image(model, processor, image_path, qa_pairs):
 
     try:
         image = Image.open(image_path).convert("RGB")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         for attribute, question, expected_answer in qa_pairs:
             # Prepare inputs
@@ -52,15 +51,28 @@ def evaluate_image(model, processor, image_path, qa_pairs):
                 outputs = model(**encoding)
             
             logits = outputs.logits
+            
+            # Get prediction
             idx = logits.argmax(-1).item()
             predicted_answer = model.config.id2label[idx]
-
             is_correct = (predicted_answer.lower() == expected_answer.lower())
+
+            # Calculate "yes" probability
+            probabilities = torch.nn.functional.softmax(logits, dim=-1)[0]
+            yes_id = -1
+            # Handle both 'yes' and 'Yes' as possible labels
+            if 'yes' in model.config.label2id:
+                yes_id = model.config.label2id['yes']
+            elif 'Yes' in model.config.label2id:
+                yes_id = model.config.label2id['Yes']
             
+            yes_probability = probabilities[yes_id].item() if yes_id != -1 else 0.0
+
             vqa_results[attribute] = {
                 "question": question,
                 "predicted_answer": predicted_answer,
-                "is_correct": is_correct
+                "is_correct": is_correct,
+                "yes_probability": yes_probability
             }
         
         return vqa_results
@@ -77,8 +89,9 @@ def main():
     # Argument Parsing
     parser = argparse.ArgumentParser(description="Runs n-wise intersectional evaluation using a VQA model.")
     parser.add_argument("-n", type=int, required=True, help="Number for n-wise analysis (e.g., 2 or 3)")
+    parser.add_argument("-d", type=str, default="cuda", choices=["cuda", "cpu"], help="Device to use for evaluation (cuda or cpu)")
     args = parser.parse_args()
-    n = args.n_wise
+    n = args.n
     print(f"--- Starting {n}-wise VQA Evaluation ---")
 
     # Path Generation
@@ -108,10 +121,16 @@ def main():
         processor_class = selected_model_config["processor_class"]
         model_class = selected_model_config["model_class"]
 
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        # Determine device based on argument and availability
+        device = args.d
+        if device == "cuda" and not torch.cuda.is_available():
+            print("Warning: CUDA is not available. Falling back to CPU.")
+            device = "cpu"
+        print(f"Using VQA model: {current_model_id} on {device}")
+
+
         model = model_class.from_pretrained(current_model_id).to(device)
         processor = processor_class.from_pretrained(current_model_id)
-        print(f"Using VQA model: {current_model_id} on {device}")
     except Exception as e:
         print(f"Error loading model: {e}")
         return
@@ -128,6 +147,7 @@ def main():
 
     for filename in image_files:
         try:
+            print(f"--- Processing image: {filename} ---")
             case_id = int(filename.split('_')[0])
             case_info = test_cases.get(case_id)
             if not case_info:
@@ -136,23 +156,30 @@ def main():
 
             # Generate Question-Answer pairs
             qa_pairs = []
+            
             for attribute, value in case_info['assignment'].items():
                 template = QUESTION_TEMPLATES.get(attribute, QUESTION_TEMPLATES["default"])
                 question = template.format(value=value)
                 qa_pairs.append((attribute, question, "yes")) # Attribute, Question, Expected Answer
-            
+
             if not qa_pairs:
                 print(f"Warning: No questions could be generated for {filename}.")
                 continue
 
             # Evaluate the image
             image_path = os.path.join(image_dir, filename)
-            vqa_results = evaluate_image(model, processor, image_path, qa_pairs)
+            vqa_results = evaluate_image(model, processor, image_path, qa_pairs, device)
             
             if vqa_results:
                 correct_count = sum(1 for res in vqa_results.values() if res["is_correct"])
                 total_questions = len(vqa_results)
                 accuracy = (correct_count / total_questions) * 100 if total_questions > 0 else 0
+
+                # Calculate average yes_probability
+                probabilities = [
+                    res["yes_probability"] for res in vqa_results.values()
+                ]
+                avg_yes_probability = sum(probabilities) / len(probabilities) if probabilities else 0.0
 
                 result_object = {
                     "image_id": case_id,
@@ -164,6 +191,7 @@ def main():
                         "accuracy": accuracy,
                         "correct_count": correct_count,
                         "total_questions": total_questions,
+                        "average_yes_probability": avg_yes_probability
                     }
                 }
                 all_results.append(result_object)
