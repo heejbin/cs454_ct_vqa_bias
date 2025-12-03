@@ -1,9 +1,12 @@
 import argparse
 import json
 import os
+from functools import partial
 from PIL import Image
 from transformers import ViltProcessor, ViltForQuestionAnswering, BlipProcessor, BlipForQuestionAnswering
 import torch
+from torch.utils.data import Dataset, DataLoader
+from tqdm import tqdm
 
 PROMPT_DIR = "prompt_generator/prompt" 
 OUTPUT_ROOT_DIR = "./" 
@@ -23,6 +26,7 @@ MODEL_LIST = {
 }
 
 MODEL = "vilt-base"
+DEFAULT_BATCH_SIZE = 16
 
 QUESTION_TEMPLATES = {
     "gender": "Is the person's gender {value}?",
@@ -32,6 +36,99 @@ QUESTION_TEMPLATES = {
     "default": "Is the person {value}?" # Fallback template
 }
 
+
+class VQADataset(Dataset):
+    """Dataset for VQA evaluation that flattens all image-question pairs."""
+    
+    def __init__(self, samples):
+        """
+        Args:
+            samples: List of dicts with keys:
+                - image_path: path to image file
+                - question: question string
+                - attribute: attribute name
+                - expected_answer: expected answer string
+                - case_id: test case ID
+                - filename: original filename
+                - case_info: full case info dict
+        """
+        self.samples = samples
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, idx):
+        sample = self.samples[idx]
+        try:
+            image = Image.open(sample['image_path']).convert("RGB")
+        except Exception as e:
+            print(f"Error loading image {sample['image_path']}: {e}")
+            image = Image.new("RGB", (224, 224), color="black")  # Placeholder
+        
+        return {
+            'image': image,
+            'question': sample['question'],
+            'attribute': sample['attribute'],
+            'expected_answer': sample['expected_answer'],
+            'case_id': sample['case_id'],
+            'filename': sample['filename'],
+            'case_info': sample['case_info']
+        }
+
+
+def collate_fn(batch, processor):
+    """Custom collate function that uses the processor for batching."""
+    images = [item['image'] for item in batch]
+    questions = [item['question'] for item in batch]
+    
+    # Process images and questions together
+    encoding = processor(images, questions, return_tensors="pt", padding=True)
+    
+    # Keep metadata
+    metadata = [{
+        'attribute': item['attribute'],
+        'expected_answer': item['expected_answer'],
+        'case_id': item['case_id'],
+        'filename': item['filename'],
+        'case_info': item['case_info'],
+        'question': item['question']
+    } for item in batch]
+    
+    return encoding, metadata
+
+
+def evaluate_batch(model, encoding, metadata, device):
+    """Evaluate a batch of image-question pairs."""
+    encoding = {k: v.to(device) for k, v in encoding.items()}
+    
+    with torch.no_grad():
+        outputs = model(**encoding)
+    
+    logits = outputs.logits
+    predictions = logits.argmax(dim=-1)
+    probabilities = torch.nn.functional.softmax(logits, dim=-1)
+    
+    # Get yes_id once
+    yes_id = model.config.label2id.get('yes', model.config.label2id.get('Yes', -1))
+    
+    results = []
+    for i, meta in enumerate(metadata):
+        idx = predictions[i].item()
+        predicted_answer = model.config.id2label[idx]
+        yes_probability = probabilities[i, yes_id].item() if yes_id != -1 else 0.0
+        
+        results.append({
+            'attribute': meta['attribute'],
+            'question': meta['question'],
+            'predicted_answer': predicted_answer,
+            'is_correct': predicted_answer.lower() == meta['expected_answer'].lower(),
+            'yes_probability': yes_probability,
+            'case_id': meta['case_id'],
+            'filename': meta['filename'],
+            'case_info': meta['case_info']
+        })
+    
+    return results
 
 def evaluate_image(model, processor, image_path, qa_pairs, device):
     vqa_results = {}
@@ -90,9 +187,14 @@ def main():
     parser = argparse.ArgumentParser(description="Runs n-wise intersectional evaluation using a VQA model.")
     parser.add_argument("-n", type=int, required=True, help="Number for n-wise analysis (e.g., 2 or 3)")
     parser.add_argument("-d", type=str, default="cuda", choices=["cuda", "cpu"], help="Device to use for evaluation (cuda or cpu)")
+    parser.add_argument("-b", "--batch-size", type=int, default=DEFAULT_BATCH_SIZE, help=f"Batch size for inference (default: {DEFAULT_BATCH_SIZE})")
+    parser.add_argument("-w", "--num-workers", type=int, default=4, help="Number of workers for DataLoader (default: 4)")
     args = parser.parse_args()
     n = args.n
+    batch_size = args.batch_size
+    num_workers = args.num_workers
     print(f"--- Starting {n}-wise VQA Evaluation ---")
+    print(f"Using batch_size={batch_size}, num_workers={num_workers}")
 
     # Path Generation
     prompt_filename = f"ct_prompts_{n}wise.json"
@@ -140,68 +242,115 @@ def main():
     test_cases = {case['id']: case for case in prompt_data['test_cases']}
 
     # Evaluation
-    all_results = []
     print(f"\nEvaluating images in '{image_dir}' folder...")
     image_files = [f for f in os.listdir(image_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
+    all_samples = []
     for filename in image_files:
         try:
-            print(f"--- Processing image: {filename} ---")
             case_id = int(filename.split('_')[0])
             case_info = test_cases.get(case_id)
             if not case_info:
                 print(f"Warning: Prompt info for ID {case_id} (from {filename}) not found.")
                 continue
 
-            # Generate Question-Answer pairs
-            qa_pairs = []
-            
+            image_path = os.path.join(image_dir, filename)
             for attribute, value in case_info['assignment'].items():
                 template = QUESTION_TEMPLATES.get(attribute, QUESTION_TEMPLATES["default"])
                 question = template.format(value=value)
-                qa_pairs.append((attribute, question, "yes")) # Attribute, Question, Expected Answer
+                all_samples.append({
+                    'image_path': image_path,
+                    'question': question,
+                    'attribute': attribute,
+                    'expected_answer': 'yes',
+                    'case_id': case_id,
+                    'filename': filename,
+                    'case_info': case_info
+                })
 
             full_prompt_question = f"Is the image showing '{case_info['prompt']}'?"
-            qa_pairs.append(("full_prompt_check", full_prompt_question, "yes"))
-
-            if not qa_pairs:
-                print(f"Warning: No questions could be generated for {filename}.")
-                continue
-
-            # Evaluate the image
-            image_path = os.path.join(image_dir, filename)
-            vqa_results = evaluate_image(model, processor, image_path, qa_pairs, device)
-            
-            if vqa_results:
-                correct_count = sum(1 for res in vqa_results.values() if res["is_correct"])
-                total_questions = len(vqa_results)
-                accuracy = (correct_count / total_questions) * 100 if total_questions > 0 else 0
-
-                # Calculate average yes_probability
-                probabilities = [
-                    res["yes_probability"] for attr, res in vqa_results.items() if attr != "full_prompt_check"
-                ]
-                avg_yes_probability = sum(probabilities) / len(probabilities) if probabilities else 0.0
-
-                result_object = {
-                    "image_id": case_id,
-                    "image_filename": filename,
-                    "full_prompt": case_info['prompt'],
-                    "assigned_attributes": case_info['assignment'],
-                    "vqa_results": vqa_results,
-                    "summary": {
-                        "accuracy": accuracy,
-                        "correct_count": correct_count,
-                        "total_questions": total_questions,
-                        "average_yes_probability": avg_yes_probability
-                    }
-                }
-                all_results.append(result_object)
-
+            all_samples.append({
+                'image_path': image_path,
+                'question': full_prompt_question,
+                'attribute': 'full_prompt_check',
+                'expected_answer': 'yes',
+                'case_id': case_id,
+                'filename': filename,
+                'case_info': case_info
+            })
         except (ValueError, IndexError):
             print(f"Warning: Could not extract ID from filename '{filename}'")
-        except Exception as e:
-            print(f"Unexpected error processing file '{filename}': {e}")
+
+    if not all_samples:
+        print("\nNo valid samples found for evaluation.")
+        return
+
+    print(f"Total samples to evaluate: {len(all_samples)}")
+
+    # Create DataLoader
+    dataset = VQADataset(all_samples)
+    dataloader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        collate_fn=partial(collate_fn, processor=processor),
+        pin_memory=(device == "cuda")
+    )
+
+    # Process batches
+    batch_results = []
+    for encoding, metadata in tqdm(dataloader, desc="Processing batches"):
+        results = evaluate_batch(model, encoding, metadata, device)
+        batch_results.extend(results)
+
+    # Aggregate results by image
+    results_by_image = {}
+    for result in batch_results:
+        key = (result['case_id'], result['filename'])
+        if key not in results_by_image:
+            results_by_image[key] = {
+                'case_id': result['case_id'],
+                'filename': result['filename'],
+                'case_info': result['case_info'],
+                'vqa_results': {}
+            }
+        results_by_image[key]['vqa_results'][result['attribute']] = {
+            'question': result['question'],
+            'predicted_answer': result['predicted_answer'],
+            'is_correct': result['is_correct'],
+            'yes_probability': result['yes_probability']
+        }
+
+    # Build final results
+    all_results = []
+    for (case_id, filename), data in results_by_image.items():
+        vqa_results = data['vqa_results']
+        case_info = data['case_info']
+
+        correct_count = sum(1 for res in vqa_results.values() if res["is_correct"])
+        total_questions = len(vqa_results)
+        accuracy = (correct_count / total_questions) * 100 if total_questions > 0 else 0
+
+        probabilities = [
+            res["yes_probability"] for attr, res in vqa_results.items() if attr != "full_prompt_check"
+        ]
+        avg_yes_probability = sum(probabilities) / len(probabilities) if probabilities else 0.0
+
+        result_object = {
+            "image_id": case_id,
+            "image_filename": filename,
+            "full_prompt": case_info['prompt'],
+            "assigned_attributes": case_info['assignment'],
+            "vqa_results": vqa_results,
+            "summary": {
+                "accuracy": accuracy,
+                "correct_count": correct_count,
+                "total_questions": total_questions,
+                "average_yes_probability": avg_yes_probability
+            }
+        }
+        all_results.append(result_object)
 
     # Save Results
     if not all_results:
