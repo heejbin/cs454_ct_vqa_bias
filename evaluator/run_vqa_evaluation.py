@@ -268,16 +268,16 @@ def main():
                     'case_info': case_info
                 })
 
-            full_prompt_question = f"Is the image showing '{case_info['prompt']}'?"
-            all_samples.append({
-                'image_path': image_path,
-                'question': full_prompt_question,
-                'attribute': 'full_prompt_check',
-                'expected_answer': 'yes',
-                'case_id': case_id,
-                'filename': filename,
-                'case_info': case_info
-            })
+            # full_prompt_question = f"Is the image showing '{case_info['prompt']}'?"
+            # all_samples.append({
+            #     'image_path': image_path,
+            #     'question': full_prompt_question,
+            #     'attribute': 'full_prompt_check',
+            #     'expected_answer': 'yes',
+            #     'case_id': case_id,
+            #     'filename': filename,
+            #     'case_info': case_info
+            # })
         except (ValueError, IndexError):
             print(f"Warning: Could not extract ID from filename '{filename}'")
 
