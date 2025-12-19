@@ -728,5 +728,5 @@ if __name__ == '__main__':
     print("2. Open browser: http://localhost:5000")
     print("="*60 + "\n")
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5003, debug=True)
 

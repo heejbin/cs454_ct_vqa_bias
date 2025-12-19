@@ -58,6 +58,6 @@ with torch.inference_mode():
                 safety_checker=None,
             ).images
             for img in images:
-                img.save(f"./outputs/{case['id']}_{count}.png")
+                img.save(f"./outputs/{case['id']}_{count}.jpg", "JPEG")
                 count += 1
         print(f"Completed prompt #{case['id']}: '{case['prompt']}' with {count} images.")

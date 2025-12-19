@@ -122,7 +122,7 @@ def main():
         model_class = selected_model_config["model_class"]
 
         # Determine device based on argument and availability
-        device = args.device
+        device = args.d
         if device == "cuda" and not torch.cuda.is_available():
             print("Warning: CUDA is not available. Falling back to CPU.")
             device = "cpu"
