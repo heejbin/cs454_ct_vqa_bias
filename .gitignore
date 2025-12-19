@@ -1,7 +1,11 @@
 # Diffusion, CLIP & VQA outputs
 outputs*/
-*result*/
+*_result*/
 example/
+
+# Data
+annotation*.json
+*_annotation.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

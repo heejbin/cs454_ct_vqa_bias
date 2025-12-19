@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotation System - Prompt-Image-VQA Matching</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2196F3;
+            font-size: 18px;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .prompt-section {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .prompt-text {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .image-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .vqa-section {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .vqa-item {
+            background: #f9f9f9;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .vqa-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .vqa-answer {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .vqa-probability {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .annotation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .annotation-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .annotation-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .btn-true {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-true:hover {
+            background: #45a049;
+        }
+
+        .btn-true.selected {
+            background: #1b5e20;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 3px solid #4CAF50;
+            transform: scale(1.05);
+            font-weight: bold;
+        }
+
+        .btn-false {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-false:hover {
+            background: #da190b;
+        }
+
+        .btn-false.selected {
+            background: #b71c1c;
+            box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 3px solid #f44336;
+            transform: scale(1.05);
+            font-weight: bold;
+        }
+
+        .btn-unsure {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-unsure:hover {
+            background: #f57c00;
+        }
+
+        .btn-unsure.selected {
+            background: #bf360c;
+            box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff9800;
+            transform: scale(1.05);
+            font-weight: bold;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .factor-item {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .factor-header {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .factor-value {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .factor-vqa {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .factor-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .factor-buttons .btn {
+            flex: 1;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-control {
+            padding: 10px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-control:hover {
+            background: #1976D2;
+        }
+
+        .btn-control:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .annotator-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .annotator-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        .annotator-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+        }
+
+        .completed-message {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .completed-message h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .navigation-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Annotation System</h1>
+        <div class="stats">
+            <div class="stat-item">
+                <span>Progress</span>
+                <span class="stat-value" id="progress">-</span>
+            </div>
+            <div class="stat-item">
+                <span>Completed</span>
+                <span class="stat-value" id="completed">-</span>
+            </div>
+            <div class="stat-item">
+                <span>Total</span>
+                <span class="stat-value" id="total">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="loading">Loading...</div>
+    </div>
+
+    <script>
+        let currentSample = null;
+        let factorAnnotations = {};  // {factor_name: {prompt_image_match: "true"/"false"/"unsure", image_vqa_match: "true"/"false"/"unsure"}}
+        let imageHasAnomalies = null;  // "true" or "false" or null
+        let savePartialTimer = null;  // Debounce timer for saving partial annotations
+
+        async function loadCurrentSample() {
+            try {
+                // Save previous sample's annotation before loading new one
+                if (currentSample && (Object.keys(factorAnnotations).length > 0 || imageHasAnomalies !== null)) {
+                    await savePreviousAnnotation();
+                }
+                
+                const response = await fetch('/api/current_sample');
+                const data = await response.json();
+
+                if (data.annotator_required) {
+                    showAnnotatorSelection(data.annotators);
+                    return;
+                }
+
+                if (data.completed) {
+                    // Save current sample's annotation if there's any before showing completion message
+                    // (This handles the case when we're already on the last sample)
+                    if (currentSample && (Object.keys(factorAnnotations).length > 0 || imageHasAnomalies !== null)) {
+                        await savePreviousAnnotation();
+                    }
+                    showCompletedMessage();
+                    return;
+                }
+
+                currentSample = {
+                    ...data.sample,
+                    prompt_annotation_count: data.prompt_annotation_count,
+                    n_per_parameter: data.n_per_parameter,
+                    can_annotate: data.can_annotate,
+                    factors: data.sample.factors || []
+                };
+                updateUI(data);
+                updateStats(data.index, data.total);
+                
+                // Load existing annotations if any
+                if (data.existing_annotations) {
+                    if (data.existing_annotations.factor_annotations) {
+                        factorAnnotations = data.existing_annotations.factor_annotations;
+                    } else {
+                        factorAnnotations = {};
+                    }
+                    imageHasAnomalies = data.existing_annotations.image_has_anomalies || null;
+                } else {
+                    factorAnnotations = {};
+                    imageHasAnomalies = null;
+                }
+            } catch (error) {
+                console.error('Error loading sample:', error);
+                document.getElementById('content').innerHTML = 
+                    '<div class="loading">Error loading sample. Please refresh the page.</div>';
+            }
+        }
+
+        function showAnnotatorSelection(annotators) {
+            const content = document.getElementById('content');
+            const annotatorButtons = annotators.map(name => 
+                `<button class="annotator-btn" onclick="selectAnnotator('${name}')">${name}</button>`
+            ).join('');
+            
+            content.innerHTML = `
+                <div style="max-width: 600px; margin: 100px auto; text-align: center;">
+                    <h2 style="font-size: 32px; margin-bottom: 40px; color: #333;">이름을 선택해주세요</h2>
+                    <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                        ${annotatorButtons}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function selectAnnotator(annotator) {
+            try {
+                const response = await fetch('/api/set_annotator', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ annotator: annotator })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store annotator in sessionStorage for this session only
+                    sessionStorage.setItem('annotator', annotator);
+                    
+                    // Reload current sample after setting annotator
+                    await loadCurrentSample();
+                } else {
+                    alert('이름 선택에 실패했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error('Error setting annotator:', error);
+                alert('이름 선택 중 오류가 발생했습니다.');
+            }
+        }
+
+        function updateUI(data) {
+            const sample = data.sample;
+            const promptCount = data.prompt_annotation_count || 0;
+            const nPerParameter = data.n_per_parameter || 10;
+            const canAnnotate = data.can_annotate !== false;
+            const limitReached = promptCount >= nPerParameter;
+            
+            const limitWarning = limitReached ? 
+                `<div style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+                    ⚠️ 이 prompt는 이미 ${nPerParameter}개의 annotation이 완료되어 더 이상 annotate할 수 없습니다.
+                </div>` : 
+                `<div style="background: #e7f3ff; color: #004085; padding: 25px 20px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #2196F3;">
+                    이 prompt의 annotation 개수: ${promptCount}/${nPerParameter}
+                </div>`;
+            
+            // Render factors for annotation
+            const promptImageFactorsHtml = renderPromptImageFactors(sample.factors || [], limitReached);
+            
+            // Render image anomalies question
+            const imageAnomaliesHtml = `
+                <div class="factor-item" id="factor-anomalies">
+                    <div class="factor-header">이미지 이상점</div>
+                    <div class="factor-value" style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+                        Are there any anomalies/artifacts in this image?
+                    </div>
+                    <div class="factor-buttons">
+                        <button class="btn btn-true ${imageHasAnomalies === 'true' ? 'selected' : ''}" 
+                                onclick="setImageAnomalies('true')" 
+                                ${limitReached ? 'disabled' : ''}>
+                            True (있음)
+                        </button>
+                        <button class="btn btn-false ${imageHasAnomalies === 'false' ? 'selected' : ''}" 
+                                onclick="setImageAnomalies('false')" 
+                                ${limitReached ? 'disabled' : ''}>
+                            False (없음)
+                        </button>
+                    </div>
+                </div>
+                <div id="dummy-spacer" style="height: 500px;"></div>
+            `;
+            
+            const imageNumber = sample.image_number !== undefined ? sample.image_number : 0;
+            
+            const html = `
+                <div class="main-container">
+                    <div class="panel prompt-section" style="grid-column: 1 / 2;">
+                        <div class="panel-title">Prompt & Image 일치도 평가</div>
+                        ${limitWarning}
+                        <div style="margin-top: 20px;">
+                            ${promptImageFactorsHtml}
+                            ${imageAnomaliesHtml}
+                        </div>
+                    </div>
+
+                    <div class="panel image-section" style="grid-column: 2 / 3;">
+                        <div class="panel-title">Image</div>
+                        <div style="text-align: center; font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px;">
+                            이미지 ${imageNumber + 1}번
+                        </div>
+                        <div class="image-container">
+                            <img src="/images/${sample.image_filename}" alt="Sample image" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn-control" onclick="skipSample()">Skip</button>
+                    <button class="btn-control" onclick="goToSample()">Go to:</button>
+                    <input type="number" class="navigation-input" id="gotoIndex" min="0" placeholder="Index" />
+                    <button class="btn-control" onclick="saveAnnotation()" id="saveBtn" disabled>
+                        Save & Next
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('content').innerHTML = html;
+            updateButtonStates();
+            checkCanSave();
+        }
+
+        function renderPromptImageFactors(factors, limitReached) {
+            if (!factors || factors.length === 0) {
+                return '<div>No factors available</div>';
+            }
+
+            const factorNames = {
+                'appearance_body_status': '외모/신체 상태',
+                'race_ethnicity': '인종/민족',
+                'age': '나이',
+                'gender': '성별',
+                'location': '위치',
+                'faith': '종교',
+                'socioeconomic_status': '사회경제적 지위',
+                'disability_status': '장애 상태'
+            };
+
+            // Age range mapping (only for Infant, Child, Teenager)
+            const ageRanges = {
+                'Infant': '(0-2)',
+                'Child': '(2-12)',
+                'Teenager': '(13-19)'
+            };
+            
+            // Helper function to format labels with age ranges
+            function formatLabelWithAge(label, factorName) {
+                if (factorName === 'age' && ageRanges[label]) {
+                    return `${label}${ageRanges[label]}`;
+                }
+                return label;
+            }
+            
+            // Helper function to format other labels with age ranges
+            function formatOtherLabels(labels, factorName) {
+                if (factorName === 'age') {
+                    return labels.map(label => formatLabelWithAge(label, factorName)).join(', ');
+                }
+                return labels.join(', ');
+            }
+            
+            let html = '';
+            factors.forEach((factor, index) => {
+                const factorName = factor.name;
+                const displayName = factorNames[factorName] || factorName;
+                const assignedValue = factor.assigned_value || '';
+                const formattedAssignedValue = formatLabelWithAge(assignedValue, factorName);
+                
+                // Get current annotation for prompt-image match
+                const factorAnn = factorAnnotations[factorName] || {};
+                const promptImageValue = factorAnn.prompt_image_match || null;
+                
+                html += `
+                    <div class="factor-item" id="factor-${index}">
+                        <div class="factor-header">${displayName}</div>
+                        <div class="factor-value" style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+                            Prompt: ${escapeHtml(formattedAssignedValue)}
+                        </div>
+                        <div class="factor-buttons">
+                            <button class="btn btn-true ${promptImageValue === 'true' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'prompt_image_match', 'true', ${index})" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                True
+                            </button>
+                            <button class="btn btn-false ${promptImageValue === 'false' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'prompt_image_match', 'false', ${index})" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                False
+                            </button>
+                            <button class="btn btn-unsure ${promptImageValue === 'unsure' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'prompt_image_match', 'unsure', ${index})" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                Unsure
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
+        function renderImageVqaFactors(factors, limitReached) {
+            if (!factors || factors.length === 0) {
+                return '<div>No factors available</div>';
+            }
+
+            const factorNames = {
+                'appearance_body_status': '외모/신체 상태',
+                'race_ethnicity': '인종/민족',
+                'age': '나이',
+                'gender': '성별',
+                'location': '위치',
+                'faith': '종교',
+                'socioeconomic_status': '사회경제적 지위',
+                'disability_status': '장애 상태'
+            };
+
+            let html = '';
+            factors.forEach(factor => {
+                const factorName = factor.name;
+                const displayName = factorNames[factorName] || factorName;
+                const vqaQuestion = factor.vqa_question || '';
+                const vqaAnswer = factor.vqa_answer || '';
+                const vqaProb = (factor.vqa_probability * 100).toFixed(1);
+                
+                // Get current annotation for image-vqa match
+                const factorAnn = factorAnnotations[factorName] || {};
+                const imageVqaValue = factorAnn.image_vqa_match || null;
+                
+                html += `
+                    <div class="factor-item">
+                        <div class="factor-header">${displayName}</div>
+                        <div class="factor-vqa" style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+                            VQA: "${escapeHtml(vqaQuestion)}" → ${vqaAnswer} (${vqaProb}%)
+                        </div>
+                        <div class="factor-buttons">
+                            <button class="btn btn-true ${imageVqaValue === 'true' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'image_vqa_match', 'true')" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                True
+                            </button>
+                            <button class="btn btn-false ${imageVqaValue === 'false' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'image_vqa_match', 'false')" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                False
+                            </button>
+                            <button class="btn btn-unsure ${imageVqaValue === 'unsure' ? 'selected' : ''}" 
+                                    onclick="setFactorAnnotation('${factorName}', 'image_vqa_match', 'unsure')" 
+                                    ${limitReached ? 'disabled' : ''}>
+                                Unsure
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
+        function renderVQAResults(vqaResults) {
+            let html = '';
+            for (const [key, result] of Object.entries(vqaResults)) {
+                const isCorrect = result.is_correct ? '✓' : '✗';
+                const correctClass = result.is_correct ? 'color: #4CAF50;' : 'color: #f44336;';
+                html += `
+                    <div class="vqa-item">
+                        <div class="vqa-question">${escapeHtml(result.question)}</div>
+                        <div class="vqa-answer" style="${correctClass}">
+                            Answer: ${result.predicted_answer} ${isCorrect}
+                        </div>
+                        <div class="vqa-probability">
+                            Probability: ${(result.yes_probability * 100).toFixed(2)}%
+                        </div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function setImageAnomalies(value) {
+            // If clicking the same button that's already selected, deselect it
+            if (imageHasAnomalies === value) {
+                imageHasAnomalies = null;
+            } else {
+                imageHasAnomalies = value;
+            }
+            
+            // Update button states
+            const trueBtn = document.querySelector('[onclick*="setImageAnomalies(\'true\'"]');
+            const falseBtn = document.querySelector('[onclick*="setImageAnomalies(\'false\'"]');
+            
+            if (trueBtn) {
+                trueBtn.classList.remove('selected');
+                if (imageHasAnomalies === 'true') {
+                    trueBtn.classList.add('selected');
+                }
+            }
+            if (falseBtn) {
+                falseBtn.classList.remove('selected');
+                if (imageHasAnomalies === 'false') {
+                    falseBtn.classList.add('selected');
+                }
+            }
+            
+            // Scroll down to keep button in view
+            setTimeout(() => {
+                const promptSection = document.querySelector('.prompt-section');
+                const anomaliesItem = document.getElementById('factor-anomalies');
+                if (promptSection && anomaliesItem) {
+                    // Scroll to center the anomalies item
+                    anomaliesItem.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }
+            }, 100);
+            
+            checkCanSave();
+        }
+
+        async function savePreviousAnnotation() {
+            // Save previous sample's annotation before loading new one
+            if (!currentSample) return;
+            
+            // Check if all factors are annotated (at least one factor should be annotated)
+            const factors = currentSample.factors || [];
+            let hasAnyAnnotation = false;
+            
+            factors.forEach(factor => {
+                const factorAnn = factorAnnotations[factor.name];
+                if (factorAnn && factorAnn.prompt_image_match) {
+                    hasAnyAnnotation = true;
+                }
+            });
+            
+            if (imageHasAnomalies !== null) {
+                hasAnyAnnotation = true;
+            }
+            
+            // Only save if there's at least one annotation
+            if (!hasAnyAnnotation) return;
+            
+            try {
+                await fetch('/api/annotate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        factor_annotations: factorAnnotations,
+                        image_has_anomalies: imageHasAnomalies,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            } catch (error) {
+                console.error('Error saving previous annotation:', error);
+            }
+        }
+
+        function setFactorAnnotation(factorName, annotationType, value, currentIndex) {
+            // Initialize factor annotation if not exists
+            if (!factorAnnotations[factorName]) {
+                factorAnnotations[factorName] = {};
+            }
+            
+            // If clicking the same button that's already selected, deselect it
+            const currentValue = factorAnnotations[factorName][annotationType];
+            if (currentValue === value) {
+                factorAnnotations[factorName][annotationType] = null;
+            } else {
+                factorAnnotations[factorName][annotationType] = value;
+                
+                // Scroll to next factor after a short delay
+                setTimeout(() => {
+                    const promptSection = document.querySelector('.prompt-section');
+                    if (!promptSection) return;
+                    
+                    const nextIndex = currentIndex + 1;
+                    const nextFactor = document.getElementById(`factor-${nextIndex}`);
+                    const currentFactor = document.getElementById(`factor-${currentIndex}`);
+                    
+                    if (nextFactor && currentFactor) {
+                        // Find the True buttons in current and next factors
+                        const currentTrueButton = currentFactor.querySelector('.btn-true');
+                        const nextTrueButton = nextFactor.querySelector('.btn-true');
+                        
+                        if (currentTrueButton && nextTrueButton) {
+                            // Calculate distance between the two True buttons
+                            const currentButtonRect = currentTrueButton.getBoundingClientRect();
+                            const nextButtonRect = nextTrueButton.getBoundingClientRect();
+                            const promptSectionRect = promptSection.getBoundingClientRect();
+                            
+                            // Calculate relative positions within the scrollable container
+                            const currentButtonTop = currentButtonRect.top - promptSectionRect.top + promptSection.scrollTop;
+                            const nextButtonTop = nextButtonRect.top - promptSectionRect.top + promptSection.scrollTop;
+                            
+                            // Scroll distance is the gap between the two True buttons
+                            let scrollDistance = nextButtonTop - currentButtonTop;
+                            
+                            // If this is location factor, scroll a bit more
+                            if (factorName === 'location') {
+                                scrollDistance += 100; // Extra scroll for location
+                            }
+                            
+                            // Scroll the prompt section by the distance between True buttons
+                            promptSection.scrollBy({
+                                top: scrollDistance,
+                                behavior: 'smooth'
+                            });
+                        } else {
+                            // Fallback: scroll by margin if buttons not found
+                            const currentFactorStyle = window.getComputedStyle(currentFactor);
+                            const marginBottom = parseFloat(currentFactorStyle.marginBottom) || 15;
+                            promptSection.scrollBy({
+                                top: marginBottom,
+                                behavior: 'smooth'
+                            });
+                        }
+                    } else {
+                        // Last factor: scroll to anomalies question to keep it in view
+                        const anomaliesItem = document.getElementById('factor-anomalies');
+                        if (anomaliesItem) {
+                            anomaliesItem.scrollIntoView({ 
+                                behavior: 'smooth', 
+                                block: 'center' 
+                            });
+                        }
+                    }
+                }, 100);
+            }
+            
+            updateButtonStates();
+            checkCanSave();
+        }
+
+        function updateButtonStates() {
+            // Update all factor buttons
+            Object.keys(factorAnnotations).forEach(factorName => {
+                const factorAnn = factorAnnotations[factorName];
+                
+                // Update prompt_image_match buttons
+                const promptImageValue = factorAnn.prompt_image_match;
+                const promptImageButtons = document.querySelectorAll(`[onclick*="setFactorAnnotation('${factorName}', 'prompt_image_match'"]`);
+                promptImageButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    const onclickAttr = btn.getAttribute('onclick');
+                    if (onclickAttr.includes(`'${promptImageValue}'`)) {
+                        btn.classList.add('selected');
+                    }
+                });
+                
+            });
+        }
+
+        function checkCanSave() {
+            const saveBtn = document.getElementById('saveBtn');
+            if (saveBtn && currentSample) {
+                const promptCount = currentSample.prompt_annotation_count || 0;
+                const nPerParameter = currentSample.n_per_parameter || 10;
+                const limitReached = promptCount >= nPerParameter;
+                
+                // Check if all factors have prompt_image_match annotations and image_reasonable is set
+                const factors = currentSample.factors || [];
+                let missingCount = 0;
+                factors.forEach(factor => {
+                    const factorAnn = factorAnnotations[factor.name];
+                    if (!factorAnn || !factorAnn.prompt_image_match) {
+                        missingCount++;
+                    }
+                });
+                
+                // Check if image_has_anomalies is set
+                if (imageHasAnomalies === null) {
+                    missingCount++;
+                }
+                
+                const allAnnotated = missingCount === 0;
+                const canSave = !limitReached && allAnnotated;
+                saveBtn.disabled = !canSave;
+                
+                if (limitReached) {
+                    saveBtn.textContent = 'Limit Reached - Skip';
+                } else if (!allAnnotated) {
+                    saveBtn.textContent = `Save & Next (${missingCount} remaining)`;
+                } else {
+                    saveBtn.textContent = 'Save & Next';
+                }
+                
+                // Auto-save if all factors are annotated
+                if (allAnnotated && !limitReached) {
+                    setTimeout(() => {
+                        saveAnnotation();
+                    }, 500); // Small delay to show the button state change
+                }
+            }
+        }
+
+        async function saveAnnotation() {
+            // Check if limit is reached
+            if (currentSample && currentSample.prompt_annotation_count >= currentSample.n_per_parameter) {
+                // Skip to next sample if limit reached
+                await skipSample();
+                return;
+            }
+            
+            // Check if all factors have prompt_image_match annotations and image_reasonable is set
+            const factors = currentSample.factors || [];
+            const missingFactors = [];
+            factors.forEach(factor => {
+                const factorAnn = factorAnnotations[factor.name];
+                if (!factorAnn || !factorAnn.prompt_image_match) {
+                    missingFactors.push(factor.name);
+                }
+            });
+            
+            if (imageHasAnomalies === null) {
+                missingFactors.push('Are there any anomalies/artifacts?');
+            }
+            
+            if (missingFactors.length > 0) {
+                alert(`다음 항목들의 annotation을 완료해주세요: ${missingFactors.join(', ')}`);
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/annotate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        factor_annotations: factorAnnotations,
+                        image_has_anomalies: imageHasAnomalies,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Reset annotations
+                    factorAnnotations = {};
+                    imageHasAnomalies = null;
+                    
+                    // Load next sample
+                    await loadCurrentSample();
+                    await updateStats();
+                } else {
+                    if (data.error && data.error.includes('limit')) {
+                        // Limit reached, skip to next
+                        await skipSample();
+                    } else {
+                        alert('Error saving annotation: ' + (data.error || 'Unknown error'));
+                    }
+                }
+            } catch (error) {
+                console.error('Error saving annotation:', error);
+                alert('Error saving annotation. Please try again.');
+            }
+        }
+
+        async function skipSample() {
+            try {
+                const response = await fetch('/api/skip', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    await loadCurrentSample();
+                    await updateStats();
+                }
+            } catch (error) {
+                console.error('Error skipping sample:', error);
+            }
+        }
+
+        async function goToSample() {
+            const index = parseInt(document.getElementById('gotoIndex').value);
+            if (isNaN(index) || index < 0) {
+                alert('Please enter a valid index');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/go_to', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ index: index })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    await loadCurrentSample();
+                    await updateStats();
+                }
+            } catch (error) {
+                console.error('Error going to sample:', error);
+            }
+        }
+
+        function showCompletedMessage() {
+            document.getElementById('content').innerHTML = `
+                <div class="completed-message">
+                    <h2>✓ All Samples Completed!</h2>
+                    <p>All samples have been annotated.</p>
+                </div>
+            `;
+        }
+
+        async function updateStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('progress').textContent = 
+                    `${data.current_index + 1}/${data.total}`;
+                document.getElementById('completed').textContent = data.completed_samples;
+                document.getElementById('total').textContent = data.total_samples;
+            } catch (error) {
+                console.error('Error updating stats:', error);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        loadCurrentSample();
+        updateStats();
+        
+        // Update stats every 5 seconds
+        setInterval(updateStats, 5000);
+    </script>
+</body>
+</html>
+

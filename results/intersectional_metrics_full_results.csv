@@ -1,0 +1,331 @@
+wise,|S|,target_axis,target_abbr,S,S_abbr,vary_axis,vary_abbr,label,flip_soft,gap,n_contexts_total,n_contexts_used_flip,n_contexts_used_gap,n_contexts_skipped_both
+2wise,1,gender,GEN,age,,age,AGE,{AGE} | GEN,0.27711490384925946,0.6092474395029922,1,1,1,0
+2wise,1,disability_status,DIS,age,,age,AGE,{AGE} | DIS,0.14302522552283026,0.3644268884619274,1,1,1,0
+2wise,1,appearance_body_status,APP,age,,age,AGE,{AGE} | APP,0.13598685491363444,0.32735955231812924,1,1,1,0
+2wise,1,appearance_body_status,APP,gender,,gender,GEN,{GEN} | APP,0.12838238128894658,0.17471561544973527,1,1,1,0
+2wise,1,race_ethnicity,ETH,location,,location,LOC,{LOC} | ETH,0.09164015098549919,0.23705199610819894,1,1,1,0
+2wise,1,disability_status,DIS,appearance_body_status,,appearance_body_status,APP,{APP} | DIS,0.08043820953670316,0.08314806412583181,1,1,1,0
+2wise,1,disability_status,DIS,gender,,gender,GEN,{GEN} | DIS,0.0768023386276716,0.0787662741414939,1,1,1,0
+2wise,1,age,AGE,gender,,gender,GEN,{GEN} | AGE,0.06699997321291862,0.06259956008780121,1,1,1,0
+2wise,1,race_ethnicity,ETH,age,,age,AGE,{AGE} | ETH,0.06222929239185589,0.18739946291704423,1,1,1,0
+2wise,1,age,AGE,appearance_body_status,,appearance_body_status,APP,{APP} | AGE,0.05997743748181705,0.06632777862712114,1,1,1,0
+2wise,1,gender,GEN,disability_status,,disability_status,DIS,{DIS} | GEN,0.059243783802913175,0.0666478262021496,1,1,1,0
+2wise,1,gender,GEN,race_ethnicity,,race_ethnicity,ETH,{ETH} | GEN,0.04861085472020725,0.09729800104154152,1,1,1,0
+2wise,1,disability_status,DIS,location,,location,LOC,{LOC} | DIS,0.04705281186253753,0.11748300391697808,1,1,1,0
+2wise,1,location,LOC,age,,age,AGE,{AGE} | LOC,0.04217177491198488,0.09508439946406011,1,1,1,0
+2wise,1,age,AGE,race_ethnicity,,race_ethnicity,ETH,{ETH} | AGE,0.04143716417827947,0.08561988409512744,1,1,1,0
+2wise,1,disability_status,DIS,race_ethnicity,,race_ethnicity,ETH,{ETH} | DIS,0.038061530296416256,0.08186543869617441,1,1,1,0
+2wise,1,race_ethnicity,ETH,appearance_body_status,,appearance_body_status,APP,{APP} | ETH,0.03787725122266761,0.039428911451448,1,1,1,0
+2wise,1,race_ethnicity,ETH,disability_status,,disability_status,DIS,{DIS} | ETH,0.036273747121800204,0.03364457690136413,1,1,1,0
+2wise,1,race_ethnicity,ETH,gender,,gender,GEN,{GEN} | ETH,0.03431461001824132,0.034512108424901045,1,1,1,0
+2wise,1,appearance_body_status,APP,race_ethnicity,,race_ethnicity,ETH,{ETH} | APP,0.02882720793371728,0.07744676296830855,1,1,1,0
+2wise,1,age,AGE,disability_status,,disability_status,DIS,{DIS} | AGE,0.025578754330040754,0.029731326370966538,1,1,1,0
+2wise,1,appearance_body_status,APP,location,,location,LOC,{LOC} | APP,0.025346820321567938,0.06578520585952338,1,1,1,0
+2wise,1,age,AGE,location,,location,LOC,{LOC} | AGE,0.024527387276198985,0.05564289311806414,1,1,1,0
+2wise,1,location,LOC,gender,,gender,GEN,{GEN} | LOC,0.02428510529650929,0.026002177837702645,1,1,1,0
+2wise,1,location,LOC,race_ethnicity,,race_ethnicity,ETH,{ETH} | LOC,0.023643903154402256,0.0493880436984534,1,1,1,0
+2wise,1,location,LOC,disability_status,,disability_status,DIS,{DIS} | LOC,0.018654290469125256,0.01657737146987548,1,1,1,0
+2wise,1,gender,GEN,appearance_body_status,,appearance_body_status,APP,{APP} | GEN,0.01783404861625737,0.015579317187813801,1,1,1,0
+2wise,1,gender,GEN,location,,location,LOC,{LOC} | GEN,0.015682502492842875,0.0397785970794472,1,1,1,0
+2wise,1,appearance_body_status,APP,disability_status,,disability_status,DIS,{DIS} | APP,0.012699315400978545,0.02720950158064231,1,1,1,0
+2wise,1,location,LOC,appearance_body_status,,appearance_body_status,APP,{APP} | LOC,0.007284698998396455,0.008864177990413391,1,1,1,0
+3wise,2,gender,GEN,race_ethnicity|age,ETH,age,AGE,ETH {AGE} | GEN,0.2774265947238259,0.6111435398001607,5,5,5,0
+3wise,2,gender,GEN,location|age,LOC,age,AGE,LOC {AGE} | GEN,0.27732640474642883,0.6104309428052587,8,8,8,0
+3wise,2,gender,GEN,age|disability_status,DIS,age,AGE,DIS {AGE} | GEN,0.2728038884635021,0.599744613185285,2,2,2,0
+3wise,2,gender,GEN,appearance_body_status|age,APP,age,AGE,APP {AGE} | GEN,0.26621096049301324,0.5925120867031817,2,2,2,0
+3wise,2,disability_status,DIS,age|gender,GEN,age,AGE,GEN {AGE} | DIS,0.1493529269662373,0.3629888827069053,2,2,2,0
+3wise,2,disability_status,DIS,location|age,LOC,age,AGE,LOC {AGE} | DIS,0.14889965758606882,0.3747864977673071,8,8,8,0
+3wise,2,disability_status,DIS,race_ethnicity|age,ETH,age,AGE,ETH {AGE} | DIS,0.14496759151688446,0.36737356861994563,5,5,5,0
+3wise,2,disability_status,DIS,appearance_body_status|age,APP,age,AGE,APP {AGE} | DIS,0.14273409581779406,0.3571710158572634,2,2,2,0
+3wise,2,appearance_body_status,APP,age|gender,GEN,age,AGE,GEN {AGE} | APP,0.14133374272963553,0.33339282721700386,2,2,2,0
+3wise,2,appearance_body_status,APP,race_ethnicity|age,ETH,age,AGE,ETH {AGE} | APP,0.14066330178027908,0.3405836580338514,5,5,5,0
+3wise,2,appearance_body_status,APP,location|age,LOC,age,AGE,LOC {AGE} | APP,0.13866519679615527,0.3311612590883059,8,8,8,0
+3wise,2,appearance_body_status,APP,age|disability_status,DIS,age,AGE,DIS {AGE} | APP,0.13708483925739173,0.3218112414562836,2,2,2,0
+3wise,2,appearance_body_status,APP,age|gender,AGE,gender,GEN,AGE {GEN} | APP,0.1359491595008234,0.1815002498197347,6,6,6,0
+3wise,2,appearance_body_status,APP,location|gender,LOC,gender,GEN,LOC {GEN} | APP,0.1283885385607326,0.17430655785378596,8,8,8,0
+3wise,2,appearance_body_status,APP,race_ethnicity|gender,ETH,gender,GEN,ETH {GEN} | APP,0.12727173642660675,0.17355956861123806,5,5,5,0
+3wise,2,appearance_body_status,APP,gender|disability_status,DIS,gender,GEN,DIS {GEN} | APP,0.1272426783128358,0.17735239728313978,2,2,2,0
+3wise,2,disability_status,DIS,appearance_body_status|gender,APP,gender,GEN,APP {GEN} | DIS,0.11590347308674376,0.12299145307474402,2,2,2,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|location,APP,location,LOC,APP {LOC} | ETH,0.10520266355317792,0.24967071975253885,2,2,2,0
+3wise,2,race_ethnicity,ETH,location|age,AGE,location,LOC,AGE {LOC} | ETH,0.09759810826767125,0.2559673300800233,6,6,6,0
+3wise,2,race_ethnicity,ETH,location|gender,GEN,location,LOC,GEN {LOC} | ETH,0.09682856632907001,0.23695346242054444,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|gender,ETH,gender,GEN,ETH {GEN} | DIS,0.09570073372389543,0.09922382688855416,5,5,5,0
+3wise,2,race_ethnicity,ETH,location|disability_status,DIS,location,LOC,DIS {LOC} | ETH,0.09545473084582314,0.23891934002013065,2,2,2,0
+3wise,2,disability_status,DIS,age|gender,AGE,gender,GEN,AGE {GEN} | DIS,0.08946370342430172,0.09666330364190705,6,6,6,0
+3wise,2,disability_status,DIS,appearance_body_status|location,LOC,appearance_body_status,APP,LOC {APP} | DIS,0.08873540605098745,0.08831578800013841,8,8,8,0
+3wise,2,disability_status,DIS,appearance_body_status|age,AGE,appearance_body_status,APP,AGE {APP} | DIS,0.088298729836589,0.09425622179460906,6,6,6,0
+3wise,2,disability_status,DIS,appearance_body_status|gender,GEN,appearance_body_status,APP,GEN {APP} | DIS,0.07959321787832774,0.08231468268332864,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|appearance_body_status,ETH,appearance_body_status,APP,ETH {APP} | DIS,0.07885146223760763,0.08145064481731121,5,5,5,0
+3wise,2,gender,GEN,race_ethnicity|age,AGE,race_ethnicity,ETH,AGE {ETH} | GEN,0.07836057886033777,0.14352900528985188,6,6,6,0
+3wise,2,race_ethnicity,ETH,location|age,LOC,age,AGE,LOC {AGE} | ETH,0.07776993214967368,0.2002693629635059,8,8,8,0
+3wise,2,disability_status,DIS,location|gender,LOC,gender,GEN,LOC {GEN} | DIS,0.07658863140370122,0.078513058444562,8,8,8,0
+3wise,2,age,AGE,appearance_body_status|gender,APP,gender,GEN,APP {GEN} | AGE,0.07647766448188326,0.07016055857684173,2,2,2,0
+3wise,2,age,AGE,gender|disability_status,DIS,gender,GEN,DIS {GEN} | AGE,0.07343753301232969,0.0722618054586529,2,2,2,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|age,APP,age,AGE,APP {AGE} | ETH,0.07247322718579051,0.21563411409515165,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|gender,ETH,gender,GEN,ETH {GEN} | AGE,0.06757804278702335,0.0632779501924708,5,5,5,0
+3wise,2,race_ethnicity,ETH,age|gender,GEN,age,AGE,GEN {AGE} | ETH,0.06697020838874579,0.18729965050195962,2,2,2,0
+3wise,2,age,AGE,location|gender,LOC,gender,GEN,LOC {GEN} | AGE,0.06688906995722821,0.062486739052123014,8,8,8,0
+3wise,2,disability_status,DIS,race_ethnicity|appearance_body_status,APP,race_ethnicity,ETH,APP {ETH} | DIS,0.06645583672015001,0.14972890087170912,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|location,ETH,location,LOC,ETH {LOC} | DIS,0.06522414339834999,0.16992387505734824,5,5,5,0
+3wise,2,gender,GEN,race_ethnicity|disability_status,DIS,race_ethnicity,ETH,DIS {ETH} | GEN,0.06445643817248609,0.12420136369914503,2,2,2,0
+3wise,2,disability_status,DIS,location|age,AGE,location,LOC,AGE {LOC} | DIS,0.06379765761446789,0.1621120867792014,6,6,6,0
+3wise,2,age,AGE,race_ethnicity|appearance_body_status,ETH,appearance_body_status,APP,ETH {APP} | AGE,0.06301834417082386,0.06981677795240582,5,5,5,0
+3wise,2,race_ethnicity,ETH,age|disability_status,DIS,age,AGE,DIS {AGE} | ETH,0.06237442419683875,0.15651924893821278,2,2,2,0
+3wise,2,gender,GEN,age|disability_status,AGE,disability_status,DIS,AGE {DIS} | GEN,0.06207501175851101,0.07009155164357807,6,6,6,0
+3wise,2,gender,GEN,appearance_body_status|disability_status,APP,disability_status,DIS,APP {DIS} | GEN,0.061827022432099366,0.06654033149366484,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|location,LOC,race_ethnicity,ETH,LOC {ETH} | DIS,0.060735565060034954,0.14281525853410143,8,8,8,0
+3wise,2,age,AGE,appearance_body_status|gender,GEN,appearance_body_status,APP,GEN {APP} | AGE,0.060025336151312836,0.06638608936157514,2,2,2,0
+3wise,2,age,AGE,appearance_body_status|location,LOC,appearance_body_status,APP,LOC {APP} | AGE,0.059469433261275184,0.0657921676108067,8,8,8,0
+3wise,2,gender,GEN,location|disability_status,LOC,disability_status,DIS,LOC {DIS} | GEN,0.059153629425283696,0.06658530105628017,8,8,8,0
+3wise,2,gender,GEN,race_ethnicity|disability_status,ETH,disability_status,DIS,ETH {DIS} | GEN,0.0572611143266375,0.06501880346578978,5,5,5,0
+3wise,2,disability_status,DIS,location|gender,GEN,location,LOC,GEN {LOC} | DIS,0.056368463441781314,0.15925210814055984,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|gender,GEN,race_ethnicity,ETH,GEN {ETH} | DIS,0.05463085000184453,0.11935606167276011,2,2,2,0
+3wise,2,appearance_body_status,APP,race_ethnicity|location,LOC,race_ethnicity,ETH,LOC {ETH} | APP,0.05338914881578408,0.12995897798952888,8,8,8,0
+3wise,2,age,AGE,appearance_body_status|disability_status,APP,disability_status,DIS,APP {DIS} | AGE,0.05332446404143748,0.059530232168223896,2,2,2,0
+3wise,2,gender,GEN,race_ethnicity|location,LOC,race_ethnicity,ETH,LOC {ETH} | GEN,0.051223970184685455,0.11135755642257206,8,8,8,0
+3wise,2,appearance_body_status,APP,race_ethnicity|location,ETH,location,LOC,ETH {LOC} | APP,0.05083721873685014,0.15930221143979867,5,5,5,0
+3wise,2,disability_status,DIS,appearance_body_status|location,APP,location,LOC,APP {LOC} | DIS,0.0506020415486008,0.11804220055449405,2,2,2,0
+3wise,2,appearance_body_status,APP,race_ethnicity|age,AGE,race_ethnicity,ETH,AGE {ETH} | APP,0.049718987978050626,0.11797737421478055,6,6,6,0
+3wise,2,age,AGE,appearance_body_status|disability_status,DIS,appearance_body_status,APP,DIS {APP} | AGE,0.04959914711329777,0.05695387532357438,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|disability_status,DIS,race_ethnicity,ETH,DIS {ETH} | AGE,0.048966722312939234,0.10991898889500545,2,2,2,0
+3wise,2,age,AGE,appearance_body_status|location,APP,location,LOC,APP {LOC} | AGE,0.04806665820575261,0.11913061599689073,2,2,2,0
+3wise,2,location,LOC,race_ethnicity|age,ETH,age,AGE,ETH {AGE} | LOC,0.04758535816134879,0.10914363202036659,5,5,5,0
+3wise,2,age,AGE,race_ethnicity|location,LOC,race_ethnicity,ETH,LOC {ETH} | AGE,0.046727126925123735,0.10556444955770002,8,8,8,0
+3wise,2,appearance_body_status,APP,race_ethnicity|disability_status,DIS,race_ethnicity,ETH,DIS {ETH} | APP,0.046539578573226534,0.09458114368557198,2,2,2,0
+3wise,2,appearance_body_status,APP,race_ethnicity|gender,GEN,race_ethnicity,ETH,GEN {ETH} | APP,0.04647206263312106,0.12064244960413514,2,2,2,0
+3wise,2,appearance_body_status,APP,location|disability_status,DIS,location,LOC,DIS {LOC} | APP,0.04565963950445582,0.12948650674662665,2,2,2,0
+3wise,2,disability_status,DIS,race_ethnicity|age,AGE,race_ethnicity,ETH,AGE {ETH} | DIS,0.0448718731906133,0.09927538602223858,6,6,6,0
+3wise,2,race_ethnicity,ETH,location|gender,LOC,gender,GEN,LOC {GEN} | ETH,0.04483852217435262,0.04709529763887409,8,8,8,0
+3wise,2,gender,GEN,race_ethnicity|appearance_body_status,APP,race_ethnicity,ETH,APP {ETH} | GEN,0.044362224166635406,0.08106946510254626,2,2,2,0
+3wise,2,location,LOC,appearance_body_status|age,APP,age,AGE,APP {AGE} | LOC,0.043353101999737215,0.09508715502109338,2,2,2,0
+3wise,2,location,LOC,age|gender,GEN,age,AGE,GEN {AGE} | LOC,0.043101341502807575,0.10168230788377847,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|gender,GEN,race_ethnicity,ETH,GEN {ETH} | AGE,0.042703863915628436,0.09288253341306407,2,2,2,0
+3wise,2,location,LOC,age|disability_status,DIS,age,AGE,DIS {AGE} | LOC,0.04243745970912275,0.08024616911434668,2,2,2,0
+3wise,2,appearance_body_status,APP,location|disability_status,LOC,disability_status,DIS,LOC {DIS} | APP,0.04154482414181961,0.051823763455021904,8,8,8,0
+3wise,2,appearance_body_status,APP,location|age,AGE,location,LOC,AGE {LOC} | APP,0.0397236029197486,0.11865891918903425,6,6,6,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|location,LOC,appearance_body_status,APP,LOC {APP} | ETH,0.03886297677567635,0.04156423266716308,8,8,8,0
+3wise,2,race_ethnicity,ETH,location|disability_status,LOC,disability_status,DIS,LOC {DIS} | ETH,0.03877213943525809,0.0396903520608473,8,8,8,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|age,AGE,appearance_body_status,APP,AGE {APP} | ETH,0.03876568169511422,0.0404379615616313,6,6,6,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|gender,GEN,appearance_body_status,APP,GEN {APP} | ETH,0.03793467683747187,0.03949132639474612,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|appearance_body_status,APP,race_ethnicity,ETH,APP {ETH} | AGE,0.03723746272264529,0.07814236602890873,2,2,2,0
+3wise,2,race_ethnicity,ETH,age|disability_status,AGE,disability_status,DIS,AGE {DIS} | ETH,0.03630859022175096,0.03366466253906023,6,6,6,0
+3wise,2,race_ethnicity,ETH,gender|disability_status,GEN,disability_status,DIS,GEN {DIS} | ETH,0.0362398424574541,0.033601757116307474,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|location,ETH,location,LOC,ETH {LOC} | AGE,0.03597125793797299,0.09188857069270562,5,5,5,0
+3wise,2,race_ethnicity,ETH,age|gender,AGE,gender,GEN,AGE {GEN} | ETH,0.034802415883186,0.03497261113521738,6,6,6,0
+3wise,2,location,LOC,age|disability_status,AGE,disability_status,DIS,AGE {DIS} | LOC,0.033551524459909554,0.031706518492900126,6,6,6,0
+3wise,2,location,LOC,race_ethnicity|age,AGE,race_ethnicity,ETH,AGE {ETH} | LOC,0.030860511115837815,0.06707582260620043,6,6,6,0
+3wise,2,location,LOC,appearance_body_status|gender,APP,gender,GEN,APP {GEN} | LOC,0.030467191361156887,0.031762511007913,2,2,2,0
+3wise,2,race_ethnicity,ETH,gender|disability_status,DIS,gender,GEN,DIS {GEN} | ETH,0.030229064049421106,0.03022276614709757,2,2,2,0
+3wise,2,age,AGE,location|disability_status,DIS,location,LOC,DIS {LOC} | AGE,0.030109998911724847,0.08093990166152432,2,2,2,0
+3wise,2,appearance_body_status,APP,location|gender,GEN,location,LOC,GEN {LOC} | APP,0.029459955271749196,0.08028527456179174,2,2,2,0
+3wise,2,age,AGE,race_ethnicity|disability_status,ETH,disability_status,DIS,ETH {DIS} | AGE,0.028310533519814517,0.032791995693291054,5,5,5,0
+3wise,2,gender,GEN,appearance_body_status|age,AGE,appearance_body_status,APP,AGE {APP} | GEN,0.027817243519869462,0.026671525483505865,6,6,6,0
+3wise,2,appearance_body_status,APP,race_ethnicity|disability_status,ETH,disability_status,DIS,ETH {DIS} | APP,0.027061572382256337,0.03569248212663751,5,5,5,0
+3wise,2,age,AGE,location|gender,GEN,location,LOC,GEN {LOC} | AGE,0.02701006557167456,0.06133507149423845,2,2,2,0
+3wise,2,location,LOC,appearance_body_status|disability_status,DIS,appearance_body_status,APP,DIS {APP} | LOC,0.026513720433985588,0.023909089242813764,2,2,2,0
+3wise,2,location,LOC,appearance_body_status|disability_status,APP,disability_status,DIS,APP {DIS} | LOC,0.026513720433985588,0.023909089242813764,2,2,2,0
+3wise,2,gender,GEN,location|age,AGE,location,LOC,AGE {LOC} | GEN,0.02649703770496299,0.07370145748900724,6,6,6,0
+3wise,2,gender,GEN,race_ethnicity|location,ETH,location,LOC,ETH {LOC} | GEN,0.02637773140079634,0.07004907153686993,5,5,5,0
+3wise,2,location,LOC,race_ethnicity|disability_status,DIS,race_ethnicity,ETH,DIS {ETH} | LOC,0.02629066989011518,0.04925710420801027,2,2,2,0
+3wise,2,age,AGE,location|disability_status,LOC,disability_status,DIS,LOC {DIS} | AGE,0.026269735072288553,0.03280737054908946,8,8,8,0
+3wise,2,location,LOC,race_ethnicity|disability_status,ETH,disability_status,DIS,ETH {DIS} | LOC,0.025480735212960702,0.023980895047790017,5,5,5,0
+3wise,2,appearance_body_status,APP,age|disability_status,AGE,disability_status,DIS,AGE {DIS} | APP,0.025098221131512898,0.03249622523894455,6,6,6,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|disability_status,APP,disability_status,DIS,APP {DIS} | ETH,0.024457272361476767,0.022562303904440695,2,2,2,0
+3wise,2,age,AGE,gender|disability_status,GEN,disability_status,DIS,GEN {DIS} | AGE,0.02434199904556511,0.029754291573250158,2,2,2,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|disability_status,DIS,appearance_body_status,APP,DIS {APP} | ETH,0.02406468631109049,0.018043816459124007,2,2,2,0
+3wise,2,location,LOC,age|gender,AGE,gender,GEN,AGE {GEN} | LOC,0.023908877924710453,0.025617129849730507,6,6,6,0
+3wise,2,gender,GEN,location|disability_status,DIS,location,LOC,DIS {LOC} | GEN,0.023643304091600592,0.06447479450135213,2,2,2,0
+3wise,2,location,LOC,race_ethnicity|gender,ETH,gender,GEN,ETH {GEN} | LOC,0.023516655198213332,0.025288857198770543,5,5,5,0
+3wise,2,location,LOC,race_ethnicity|gender,GEN,race_ethnicity,ETH,GEN {ETH} | LOC,0.023208974123337122,0.04835110144543636,2,2,2,0
+3wise,2,appearance_body_status,APP,gender|disability_status,GEN,disability_status,DIS,GEN {DIS} | APP,0.02280040308317087,0.03678316651390902,2,2,2,0
+3wise,2,location,LOC,appearance_body_status|gender,GEN,appearance_body_status,APP,GEN {APP} | LOC,0.020595694268212894,0.022194065836744603,2,2,2,0
+3wise,2,gender,GEN,race_ethnicity|appearance_body_status,ETH,appearance_body_status,APP,ETH {APP} | GEN,0.020560859501210716,0.01832360911382309,5,5,5,0
+3wise,2,location,LOC,race_ethnicity|appearance_body_status,APP,race_ethnicity,ETH,APP {ETH} | LOC,0.02018696450558082,0.04111293201188182,2,2,2,0
+3wise,2,gender,GEN,appearance_body_status|location,APP,location,LOC,APP {LOC} | GEN,0.01989298618600143,0.04854705028035161,2,2,2,0
+3wise,2,gender,GEN,appearance_body_status|location,LOC,appearance_body_status,APP,LOC {APP} | GEN,0.019432314900160966,0.019713292670032245,8,8,8,0
+3wise,2,location,LOC,gender|disability_status,GEN,disability_status,DIS,GEN {DIS} | LOC,0.01859614708790802,0.016524396447433864,2,2,2,0
+3wise,2,race_ethnicity,ETH,appearance_body_status|gender,APP,gender,GEN,APP {GEN} | ETH,0.01798082731576267,0.01713304253414244,2,2,2,0
+3wise,2,location,LOC,race_ethnicity|appearance_body_status,ETH,appearance_body_status,APP,ETH {APP} | LOC,0.016323100057261165,0.017937788784393116,5,5,5,0
+3wise,2,location,LOC,appearance_body_status|age,AGE,appearance_body_status,APP,AGE {APP} | LOC,0.014129852689895897,0.01667480193697492,6,6,6,0
+3wise,2,location,LOC,gender|disability_status,DIS,gender,GEN,DIS {GEN} | LOC,0.013816256009610561,0.01581931040604867,2,2,2,0
+3wise,2,gender,GEN,appearance_body_status|disability_status,DIS,appearance_body_status,APP,DIS {APP} | GEN,0.004291522590110897,0.012815739132708892,2,2,2,0
+4wise,3,gender,GEN,race_ethnicity|location|age,ETH LOC,age,AGE,ETH LOC {AGE} | GEN,0.2787771128983726,0.6158505392277925,40,40,40,0
+4wise,3,gender,GEN,race_ethnicity|age|disability_status,ETH DIS,age,AGE,ETH DIS {AGE} | GEN,0.2750912166316602,0.6040728293608734,10,10,10,0
+4wise,3,gender,GEN,location|age|disability_status,LOC DIS,age,AGE,LOC DIS {AGE} | GEN,0.2729252855152779,0.598865767204843,16,16,16,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|age,ETH APP,age,AGE,ETH APP {AGE} | GEN,0.2671569620837322,0.5973427067180029,10,10,10,0
+4wise,3,gender,GEN,appearance_body_status|location|age,APP LOC,age,AGE,APP LOC {AGE} | GEN,0.26672338867416423,0.5915582549381702,16,16,16,0
+4wise,3,gender,GEN,appearance_body_status|age|disability_status,APP DIS,age,AGE,APP DIS {AGE} | GEN,0.26640623428276566,0.592804760712718,4,4,4,0
+4wise,3,disability_status,DIS,appearance_body_status|location|age,APP LOC,age,AGE,APP LOC {AGE} | DIS,0.19761696384627267,0.4440892823209,16,16,16,0
+4wise,3,disability_status,DIS,race_ethnicity|location|age,ETH LOC,age,AGE,ETH LOC {AGE} | DIS,0.19668638374079242,0.4637746302279916,40,40,40,0
+4wise,3,appearance_body_status,APP,location|age|disability_status,LOC DIS,age,AGE,LOC DIS {AGE} | APP,0.18251092646187622,0.46663832447048176,16,16,16,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|age,ETH APP,age,AGE,ETH APP {AGE} | DIS,0.1815107088915419,0.4203466783049457,10,10,10,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|age,ETH LOC,age,AGE,ETH LOC {AGE} | APP,0.1770101133870902,0.43603488738776414,40,40,40,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|location,APP LOC,race_ethnicity,ETH,APP LOC {ETH} | DIS,0.1749560300367164,0.389274413646938,16,16,16,0
+4wise,3,disability_status,DIS,location|age|gender,LOC GEN,age,AGE,LOC GEN {AGE} | DIS,0.1734238960367559,0.40444818796569776,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|disability_status,ETH DIS,age,AGE,ETH DIS {AGE} | APP,0.17013213170421398,0.4012111239514228,10,10,10,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|location,ETH APP,location,LOC,ETH APP {LOC} | DIS,0.17003402508119564,0.4621020355988098,10,10,10,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|location,ETH LOC,appearance_body_status,APP,ETH LOC {APP} | DIS,0.166386221355355,0.17812827035174045,40,40,40,0
+4wise,3,disability_status,DIS,appearance_body_status|location|age,LOC AGE,appearance_body_status,APP,LOC AGE {APP} | DIS,0.16213103766831252,0.17571050702423252,48,48,48,0
+4wise,3,disability_status,DIS,race_ethnicity|age|gender,ETH GEN,age,AGE,ETH GEN {AGE} | DIS,0.159951421828036,0.3927489017204792,10,10,10,0
+4wise,3,disability_status,DIS,race_ethnicity|location|gender,ETH LOC,gender,GEN,ETH LOC {GEN} | DIS,0.1577310630103127,0.16889815450896253,40,40,40,0
+4wise,3,disability_status,DIS,appearance_body_status|age|gender,APP GEN,age,AGE,APP GEN {AGE} | DIS,0.15741620520666486,0.4040869708782473,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|disability_status,APP DIS,location,LOC,APP DIS {LOC} | ETH,0.15531632794337868,0.3532942966299486,4,4,4,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|gender,ETH GEN,age,AGE,ETH GEN {AGE} | APP,0.15347112799252965,0.3581238261819027,10,10,10,0
+4wise,3,appearance_body_status,APP,race_ethnicity|gender|disability_status,ETH DIS,gender,GEN,ETH DIS {GEN} | APP,0.15159006841192219,0.1962217090440352,10,10,10,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|gender,ETH LOC,gender,GEN,ETH LOC {GEN} | APP,0.1508238088617892,0.19198077336221545,40,40,40,0
+4wise,3,appearance_body_status,APP,location|age|gender,LOC GEN,age,AGE,LOC GEN {AGE} | APP,0.14913668624938778,0.34933553698032516,16,16,16,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|age,ETH AGE,appearance_body_status,APP,ETH AGE {APP} | DIS,0.14739951744230134,0.161005297739058,30,30,30,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|age,APP AGE,race_ethnicity,ETH,APP AGE {ETH} | DIS,0.14705566010679016,0.3238196811594696,12,12,12,0
+4wise,3,disability_status,DIS,appearance_body_status|location|gender,APP LOC,gender,GEN,APP LOC {GEN} | DIS,0.14673835226822432,0.15664586464441305,16,16,16,0
+4wise,3,disability_status,DIS,race_ethnicity|location|age,ETH AGE,location,LOC,ETH AGE {LOC} | DIS,0.145065570836884,0.37989914698854454,30,30,30,0
+4wise,3,disability_status,DIS,location|age|gender,LOC AGE,gender,GEN,LOC AGE {GEN} | DIS,0.14457109055304948,0.15828077313587555,48,48,48,0
+4wise,3,appearance_body_status,APP,age|gender|disability_status,GEN DIS,age,AGE,GEN DIS {AGE} | APP,0.14425400596605897,0.332095930085665,4,4,4,0
+4wise,3,appearance_body_status,APP,location|gender|disability_status,LOC DIS,gender,GEN,LOC DIS {GEN} | APP,0.14284327940084146,0.1842964062226634,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|gender,ETH AGE,gender,GEN,ETH AGE {GEN} | APP,0.1419759268782654,0.1787423051961112,30,30,30,0
+4wise,3,disability_status,DIS,race_ethnicity|location|age,LOC AGE,race_ethnicity,ETH,LOC AGE {ETH} | DIS,0.1416725027003817,0.3137019734422177,48,48,48,0
+4wise,3,disability_status,DIS,appearance_body_status|location|age,APP AGE,location,LOC,APP AGE {LOC} | DIS,0.13987995623905017,0.35613709456846715,12,12,12,0
+4wise,3,appearance_body_status,APP,location|age|gender,LOC AGE,gender,GEN,LOC AGE {GEN} | APP,0.1380580710130671,0.18065298963671741,48,48,48,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|gender,ETH APP,gender,GEN,ETH APP {GEN} | DIS,0.13458681363835076,0.14360576343045275,10,10,10,0
+4wise,3,disability_status,DIS,race_ethnicity|age|gender,ETH AGE,gender,GEN,ETH AGE {GEN} | DIS,0.13445456636270206,0.14414623011469424,30,30,30,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|disability_status,ETH LOC,disability_status,DIS,ETH LOC {DIS} | APP,0.13215570927619322,0.163124272406225,40,40,40,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|disability_status,LOC DIS,race_ethnicity,ETH,LOC DIS {ETH} | APP,0.13078446199417768,0.3203052422712125,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|disability_status,ETH DIS,location,LOC,ETH DIS {LOC} | APP,0.12852366448901792,0.38509122402300766,10,10,10,0
+4wise,3,appearance_body_status,APP,age|gender|disability_status,AGE DIS,gender,GEN,AGE DIS {GEN} | APP,0.1284733069441776,0.1771610725485151,12,12,12,0
+4wise,3,disability_status,DIS,appearance_body_status|age|gender,APP AGE,gender,GEN,APP AGE {GEN} | DIS,0.12841191319285142,0.14028582079452656,12,12,12,0
+4wise,3,disability_status,DIS,race_ethnicity|location|gender,LOC GEN,race_ethnicity,ETH,LOC GEN {ETH} | DIS,0.12751787996011196,0.28198995065895943,16,16,16,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|age,APP AGE,location,LOC,APP AGE {LOC} | ETH,0.1242515753065357,0.3135500283412926,12,12,12,0
+4wise,3,race_ethnicity,ETH,location|age|disability_status,AGE DIS,location,LOC,AGE DIS {LOC} | ETH,0.12356428106716504,0.3139780972948031,12,12,12,0
+4wise,3,disability_status,DIS,race_ethnicity|location|gender,ETH GEN,location,LOC,ETH GEN {LOC} | DIS,0.11940697468555594,0.3339224179318145,10,10,10,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|age,LOC AGE,race_ethnicity,ETH,LOC AGE {ETH} | APP,0.11805585490442905,0.28314848538310106,48,48,48,0
+4wise,3,appearance_body_status,APP,location|age|disability_status,AGE DIS,location,LOC,AGE DIS {LOC} | APP,0.11629488155955765,0.3409853146156909,12,12,12,0
+4wise,3,disability_status,DIS,appearance_body_status|age|gender,AGE GEN,appearance_body_status,APP,AGE GEN {APP} | DIS,0.11330345632096067,0.12104444113449764,12,12,12,0
+4wise,3,appearance_body_status,APP,location|age|disability_status,LOC AGE,disability_status,DIS,LOC AGE {DIS} | APP,0.11319116443974132,0.1434340899317625,48,48,48,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|gender,APP GEN,location,LOC,APP GEN {LOC} | ETH,0.11175063515569976,0.2672485241674508,4,4,4,0
+4wise,3,disability_status,DIS,location|age|gender,AGE GEN,location,LOC,AGE GEN {LOC} | DIS,0.10957521002003046,0.2983175776220003,12,12,12,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|gender,ETH GEN,appearance_body_status,APP,ETH GEN {APP} | DIS,0.10900461213384056,0.11832453318971725,10,10,10,0
+4wise,3,disability_status,DIS,appearance_body_status|location|gender,APP GEN,location,LOC,APP GEN {LOC} | DIS,0.10711709988318321,0.27730183060644115,4,4,4,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|age,ETH AGE,location,LOC,ETH AGE {LOC} | APP,0.10703048456829918,0.31642037907088466,30,30,30,0
+4wise,3,race_ethnicity,ETH,location|age|gender,AGE GEN,location,LOC,AGE GEN {LOC} | ETH,0.10624884077577738,0.26407733860276716,12,12,12,0
+4wise,3,disability_status,DIS,appearance_body_status|location|gender,LOC GEN,appearance_body_status,APP,LOC GEN {APP} | DIS,0.1058844671079998,0.10794560690692054,16,16,16,0
+4wise,3,race_ethnicity,ETH,location|age|disability_status,LOC DIS,age,AGE,LOC DIS {AGE} | ETH,0.10334261784408189,0.24926264991994596,16,16,16,0
+4wise,3,race_ethnicity,ETH,location|gender|disability_status,GEN DIS,location,LOC,GEN DIS {LOC} | ETH,0.10314362001792586,0.25336503360577567,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|age,APP LOC,age,AGE,APP LOC {AGE} | ETH,0.10283449797734598,0.2567274813719526,16,16,16,0
+4wise,3,age,AGE,appearance_body_status|location|disability_status,APP DIS,location,LOC,APP DIS {LOC} | AGE,0.1013072745313687,0.27321878362440044,4,4,4,0
+4wise,3,gender,GEN,appearance_body_status|location|disability_status,APP LOC,disability_status,DIS,APP LOC {DIS} | GEN,0.09991045071228682,0.10524384493763132,16,16,16,0
+4wise,3,age,AGE,appearance_body_status|location|disability_status,LOC DIS,appearance_body_status,APP,LOC DIS {APP} | AGE,0.09830275529715411,0.10270573911583807,16,16,16,0
+4wise,3,disability_status,DIS,race_ethnicity|appearance_body_status|gender,APP GEN,race_ethnicity,ETH,APP GEN {ETH} | DIS,0.09785083329381979,0.21951846706330036,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|disability_status,APP LOC,disability_status,DIS,APP LOC {DIS} | ETH,0.09779957767739172,0.10153503444154216,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|disability_status,AGE DIS,race_ethnicity,ETH,AGE DIS {ETH} | APP,0.09720745300185153,0.21615659452189204,12,12,12,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|location,ETH LOC,appearance_body_status,APP,ETH LOC {APP} | AGE,0.09651824230973673,0.10062273758596849,40,40,40,0
+4wise,3,age,AGE,appearance_body_status|location|disability_status,APP LOC,disability_status,DIS,APP LOC {DIS} | AGE,0.09361722545322632,0.0984168629659062,16,16,16,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|gender,APP GEN,age,AGE,APP GEN {AGE} | ETH,0.09330011328379824,0.23218583065998488,4,4,4,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|location,ETH APP,location,LOC,ETH APP {LOC} | AGE,0.09207009087569927,0.2427897469351184,10,10,10,0
+4wise,3,appearance_body_status,APP,race_ethnicity|gender|disability_status,GEN DIS,race_ethnicity,ETH,GEN DIS {ETH} | APP,0.09167516242455195,0.20579558705495737,4,4,4,0
+4wise,3,disability_status,DIS,race_ethnicity|age|gender,AGE GEN,race_ethnicity,ETH,AGE GEN {ETH} | DIS,0.09072158947478876,0.20726833280527693,12,12,12,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|location,APP LOC,race_ethnicity,ETH,APP LOC {ETH} | AGE,0.08959511737277841,0.19915488782009194,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|gender,LOC GEN,race_ethnicity,ETH,LOC GEN {ETH} | APP,0.08945800780708263,0.20362073549814103,16,16,16,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|disability_status,LOC DIS,appearance_body_status,APP,LOC DIS {APP} | ETH,0.08823504705710605,0.0887604328284107,16,16,16,0
+4wise,3,gender,GEN,race_ethnicity|location|disability_status,LOC DIS,race_ethnicity,ETH,LOC DIS {ETH} | GEN,0.08823333321495659,0.17345976703325275,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|disability_status,ETH AGE,disability_status,DIS,ETH AGE {DIS} | APP,0.08786699205750355,0.10642478786811194,30,30,30,0
+4wise,3,age,AGE,race_ethnicity|location|disability_status,LOC DIS,race_ethnicity,ETH,LOC DIS {ETH} | AGE,0.08772055621118358,0.20272060891099403,16,16,16,0
+4wise,3,race_ethnicity,ETH,location|age|gender,LOC GEN,age,AGE,LOC GEN {AGE} | ETH,0.08715850533352178,0.21152692933081307,16,16,16,0
+4wise,3,age,AGE,appearance_body_status|gender|disability_status,APP DIS,gender,GEN,APP DIS {GEN} | AGE,0.0868896952812932,0.08368426337308954,4,4,4,0
+4wise,3,gender,GEN,race_ethnicity|age|disability_status,AGE DIS,race_ethnicity,ETH,AGE DIS {ETH} | GEN,0.08648374332041875,0.15553171237553753,12,12,12,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|gender,ETH APP,gender,GEN,ETH APP {GEN} | AGE,0.0859340272730735,0.08320910270161333,10,10,10,0
+4wise,3,race_ethnicity,ETH,location|age|disability_status,LOC AGE,disability_status,DIS,LOC AGE {DIS} | ETH,0.08468408218086955,0.09336656590918486,48,48,48,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|disability_status,ETH DIS,appearance_body_status,APP,ETH DIS {APP} | AGE,0.08406932432849973,0.08952055009552237,10,10,10,0
+4wise,3,gender,GEN,race_ethnicity|location|age,LOC AGE,race_ethnicity,ETH,LOC AGE {ETH} | GEN,0.0832262658333496,0.1538403373305833,48,48,48,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|disability_status,ETH APP,disability_status,DIS,ETH APP {DIS} | AGE,0.08319149437444694,0.09202917078325243,10,10,10,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|disability_status,APP DIS,race_ethnicity,ETH,APP DIS {ETH} | AGE,0.08317477489132678,0.18201546519771059,4,4,4,0
+4wise,3,age,AGE,appearance_body_status|location|gender,APP LOC,gender,GEN,APP LOC {GEN} | AGE,0.0828913206592519,0.08412822150960489,16,16,16,0
+4wise,3,gender,GEN,appearance_body_status|location|disability_status,APP DIS,location,LOC,APP DIS {LOC} | GEN,0.08130054651650993,0.2273901686997744,4,4,4,0
+4wise,3,age,AGE,race_ethnicity|location|gender,ETH LOC,gender,GEN,ETH LOC {GEN} | AGE,0.08105171260403528,0.07871252606495496,40,40,40,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|disability_status,APP DIS,age,AGE,APP DIS {AGE} | ETH,0.08045938998927031,0.19960571589564274,4,4,4,0
+4wise,3,appearance_body_status,APP,location|gender|disability_status,GEN DIS,location,LOC,GEN DIS {LOC} | APP,0.08045828031563639,0.23704108039834046,4,4,4,0
+4wise,3,appearance_body_status,APP,race_ethnicity|location|gender,ETH GEN,location,LOC,ETH GEN {LOC} | APP,0.08025052806283295,0.22780546282773112,10,10,10,0
+4wise,3,gender,GEN,race_ethnicity|location|disability_status,ETH LOC,disability_status,DIS,ETH LOC {DIS} | GEN,0.0798057451644173,0.09070800751587475,40,40,40,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|age,APP AGE,race_ethnicity,ETH,APP AGE {ETH} | GEN,0.07950560146209816,0.1448457371975468,12,12,12,0
+4wise,3,age,AGE,race_ethnicity|gender|disability_status,ETH DIS,gender,GEN,ETH DIS {GEN} | AGE,0.07887271806007055,0.07924684523713853,10,10,10,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|disability_status,APP DIS,race_ethnicity,ETH,APP DIS {ETH} | GEN,0.07872331198754937,0.16152574162241562,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|gender,APP AGE,gender,GEN,APP AGE {GEN} | ETH,0.07776521982042744,0.08224845748980245,12,12,12,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|location,APP LOC,race_ethnicity,ETH,APP LOC {ETH} | GEN,0.07677779071188315,0.1613478840254532,16,16,16,0
+4wise,3,appearance_body_status,APP,race_ethnicity|age|gender,AGE GEN,race_ethnicity,ETH,AGE GEN {ETH} | APP,0.07653440315331587,0.17065114215758106,12,12,12,0
+4wise,3,age,AGE,appearance_body_status|location|gender,LOC GEN,appearance_body_status,APP,LOC GEN {APP} | AGE,0.07643077682559699,0.08232491779425177,16,16,16,0
+4wise,3,age,AGE,location|gender|disability_status,LOC DIS,gender,GEN,LOC DIS {GEN} | AGE,0.07537050626221478,0.07488175872819405,16,16,16,0
+4wise,3,location,LOC,race_ethnicity|age|disability_status,ETH DIS,age,AGE,ETH DIS {AGE} | LOC,0.07499435495717022,0.1733141927131026,10,10,10,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|disability_status,AGE DIS,appearance_body_status,APP,AGE DIS {APP} | ETH,0.07371149124366082,0.07859223762901658,12,12,12,0
+4wise,3,gender,GEN,appearance_body_status|age|disability_status,APP AGE,disability_status,DIS,APP AGE {DIS} | GEN,0.0732611729827696,0.08141620960411232,12,12,12,0
+4wise,3,age,AGE,race_ethnicity|location|disability_status,ETH DIS,location,LOC,ETH DIS {LOC} | AGE,0.07289742891843512,0.1965873429989212,10,10,10,0
+4wise,3,race_ethnicity,ETH,age|gender|disability_status,GEN DIS,age,AGE,GEN DIS {AGE} | ETH,0.07264105482286613,0.19209280246468474,4,4,4,0
+4wise,3,gender,GEN,location|age|disability_status,LOC AGE,disability_status,DIS,LOC AGE {DIS} | GEN,0.0713530991633262,0.08408788176246736,48,48,48,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|age,ETH APP,age,AGE,ETH APP {AGE} | LOC,0.07012193119845464,0.1731267224792527,10,10,10,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|gender,AGE GEN,appearance_body_status,APP,AGE GEN {APP} | ETH,0.07010156633100541,0.07609689180516284,12,12,12,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|disability_status,ETH APP,disability_status,DIS,ETH APP {DIS} | LOC,0.06966971700022413,0.07162121907127326,10,10,10,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|age,LOC AGE,appearance_body_status,APP,LOC AGE {APP} | ETH,0.06858569492361127,0.07448072270636892,48,48,48,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|gender,ETH GEN,appearance_body_status,APP,ETH GEN {APP} | AGE,0.0680862912451729,0.07373239124803307,10,10,10,0
+4wise,3,race_ethnicity,ETH,age|gender|disability_status,AGE DIS,gender,GEN,AGE DIS {GEN} | ETH,0.06787950260629479,0.07168625891221096,12,12,12,0
+4wise,3,location,LOC,appearance_body_status|age|disability_status,APP DIS,age,AGE,APP DIS {AGE} | LOC,0.06721611904930944,0.1508815821388597,4,4,4,0
+4wise,3,location,LOC,race_ethnicity|age|disability_status,ETH AGE,disability_status,DIS,ETH AGE {DIS} | LOC,0.06714354276856209,0.0696971548157852,30,30,30,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|location,ETH LOC,appearance_body_status,APP,ETH LOC {APP} | GEN,0.06696840243027671,0.0721443134291872,40,40,40,0
+4wise,3,appearance_body_status,APP,location|gender|disability_status,LOC GEN,disability_status,DIS,LOC GEN {DIS} | APP,0.06598982003720606,0.07823701624403304,16,16,16,0
+4wise,3,location,LOC,race_ethnicity|age|disability_status,AGE DIS,race_ethnicity,ETH,AGE DIS {ETH} | LOC,0.06566780596568543,0.14305932835739346,12,12,12,0
+4wise,3,location,LOC,appearance_body_status|gender|disability_status,GEN DIS,appearance_body_status,APP,GEN DIS {APP} | LOC,0.06532096689105735,0.07094637910562451,4,4,4,0
+4wise,3,location,LOC,appearance_body_status|gender|disability_status,APP DIS,gender,GEN,APP DIS {GEN} | LOC,0.06532096689105735,0.07094637910562451,4,4,4,0
+4wise,3,age,AGE,race_ethnicity|location|disability_status,ETH LOC,disability_status,DIS,ETH LOC {DIS} | AGE,0.06513479217456801,0.07384438193742586,40,40,40,0
+4wise,3,race_ethnicity,ETH,location|age|gender,LOC AGE,gender,GEN,LOC AGE {GEN} | ETH,0.06447710234402602,0.0675539885903081,48,48,48,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|location,ETH APP,location,LOC,ETH APP {LOC} | GEN,0.06444941937241308,0.1756400094646668,10,10,10,0
+4wise,3,age,AGE,race_ethnicity|location|gender,LOC GEN,race_ethnicity,ETH,LOC GEN {ETH} | AGE,0.06413497608948088,0.1440741828457462,16,16,16,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|age,APP AGE,race_ethnicity,ETH,APP AGE {ETH} | LOC,0.0635180593003808,0.13597972278330092,12,12,12,0
+4wise,3,gender,GEN,appearance_body_status|location|disability_status,LOC DIS,appearance_body_status,APP,LOC DIS {APP} | GEN,0.06297920275617813,0.06912087332444518,16,16,16,0
+4wise,3,gender,GEN,race_ethnicity|location|disability_status,ETH DIS,location,LOC,ETH DIS {LOC} | GEN,0.0625645732291784,0.17572367969170555,10,10,10,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|disability_status,ETH APP,disability_status,DIS,ETH APP {DIS} | GEN,0.0608781101220535,0.06365630934557995,10,10,10,0
+4wise,3,age,AGE,race_ethnicity|gender|disability_status,GEN DIS,race_ethnicity,ETH,GEN DIS {ETH} | AGE,0.05998728447460243,0.13926477181877644,4,4,4,0
+4wise,3,appearance_body_status,APP,race_ethnicity|gender|disability_status,ETH GEN,disability_status,DIS,ETH GEN {DIS} | APP,0.059707323719606166,0.06817487777029628,10,10,10,0
+4wise,3,gender,GEN,race_ethnicity|age|disability_status,ETH AGE,disability_status,DIS,ETH AGE {DIS} | GEN,0.05889232309384089,0.06697300565490195,30,30,30,0
+4wise,3,age,AGE,appearance_body_status|location|gender,APP GEN,location,LOC,APP GEN {LOC} | AGE,0.058560982605509834,0.15849508391536657,4,4,4,0
+4wise,3,location,LOC,age|gender|disability_status,GEN DIS,age,AGE,GEN DIS {AGE} | LOC,0.05854153107086288,0.13826494494804845,4,4,4,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|disability_status,ETH DIS,appearance_body_status,APP,ETH DIS {APP} | LOC,0.057731876083085346,0.06159250802821795,10,10,10,0
+4wise,3,location,LOC,age|gender|disability_status,AGE DIS,gender,GEN,AGE DIS {GEN} | LOC,0.05744959079869599,0.06133899206916723,12,12,12,0
+4wise,3,race_ethnicity,ETH,age|gender|disability_status,AGE GEN,disability_status,DIS,AGE GEN {DIS} | ETH,0.05741729680005899,0.06220634757560329,12,12,12,0
+4wise,3,location,LOC,race_ethnicity|age|gender,ETH GEN,age,AGE,ETH GEN {AGE} | LOC,0.05709401326250714,0.1315592438168728,10,10,10,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|disability_status,APP DIS,race_ethnicity,ETH,APP DIS {ETH} | LOC,0.05685740079660645,0.12391512962613493,4,4,4,0
+4wise,3,appearance_body_status,APP,location|age|gender,AGE GEN,location,LOC,AGE GEN {LOC} | APP,0.056174157965209186,0.14525992369619106,12,12,12,0
+4wise,3,age,AGE,appearance_body_status|gender|disability_status,APP GEN,disability_status,DIS,APP GEN {DIS} | AGE,0.0554290558422208,0.06200501150711568,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|gender,LOC GEN,appearance_body_status,APP,LOC GEN {APP} | ETH,0.055240315331590996,0.056347449372691906,16,16,16,0
+4wise,3,age,AGE,race_ethnicity|appearance_body_status|gender,APP GEN,race_ethnicity,ETH,APP GEN {ETH} | AGE,0.05499193044717761,0.11705735266732464,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|location|gender,APP LOC,gender,GEN,APP LOC {GEN} | ETH,0.05440426650104787,0.05747404021868969,16,16,16,0
+4wise,3,age,AGE,race_ethnicity|location|gender,ETH GEN,location,LOC,ETH GEN {LOC} | AGE,0.05361216234503756,0.14709957955141414,10,10,10,0
+4wise,3,race_ethnicity,ETH,location|gender|disability_status,LOC GEN,disability_status,DIS,LOC GEN {DIS} | ETH,0.053048379555949175,0.054863224845034426,16,16,16,0
+4wise,3,race_ethnicity,ETH,location|gender|disability_status,LOC DIS,gender,GEN,LOC DIS {GEN} | ETH,0.0525173497432175,0.05734933313182714,16,16,16,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|disability_status,ETH DIS,appearance_body_status,APP,ETH DIS {APP} | GEN,0.050853468410731004,0.05785639810622809,10,10,10,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|age,ETH AGE,appearance_body_status,APP,ETH AGE {APP} | LOC,0.04998770432806323,0.056161188044559295,30,30,30,0
+4wise,3,location,LOC,appearance_body_status|age|disability_status,APP AGE,disability_status,DIS,APP AGE {DIS} | LOC,0.04970868541855872,0.0484519878578466,12,12,12,0
+4wise,3,location,LOC,appearance_body_status|age|gender,APP GEN,age,AGE,APP GEN {AGE} | LOC,0.049503907261971486,0.1114840853432831,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|age|disability_status,APP AGE,disability_status,DIS,APP AGE {DIS} | ETH,0.04929452060590603,0.05239736170715962,12,12,12,0
+4wise,3,age,AGE,appearance_body_status|gender|disability_status,GEN DIS,appearance_body_status,APP,GEN DIS {APP} | AGE,0.048193678028141895,0.05534335986749045,4,4,4,0
+4wise,3,location,LOC,appearance_body_status|age|disability_status,AGE DIS,appearance_body_status,APP,AGE DIS {APP} | LOC,0.04793440328402034,0.05176692744818279,12,12,12,0
+4wise,3,age,AGE,location|gender|disability_status,LOC GEN,disability_status,DIS,LOC GEN {DIS} | AGE,0.04622186054392046,0.053684041817860136,16,16,16,0
+4wise,3,gender,GEN,location|age|disability_status,AGE DIS,location,LOC,AGE DIS {LOC} | GEN,0.04621799213259866,0.12422686036460785,12,12,12,0
+4wise,3,gender,GEN,appearance_body_status|location|age,LOC AGE,appearance_body_status,APP,LOC AGE {APP} | GEN,0.04603209058537264,0.04981225292745137,48,48,48,0
+4wise,3,location,LOC,race_ethnicity|age|gender,ETH AGE,gender,GEN,ETH AGE {GEN} | LOC,0.04557369981579183,0.049984162990824865,30,30,30,0
+4wise,3,location,LOC,race_ethnicity|gender|disability_status,ETH GEN,disability_status,DIS,ETH GEN {DIS} | LOC,0.04330747044310982,0.046695081539691194,10,10,10,0
+4wise,3,location,LOC,age|gender|disability_status,AGE GEN,disability_status,DIS,AGE GEN {DIS} | LOC,0.043168392321760174,0.04600133675433321,12,12,12,0
+4wise,3,location,LOC,appearance_body_status|age|gender,APP AGE,gender,GEN,APP AGE {GEN} | LOC,0.04297835452726847,0.04656579611670956,12,12,12,0
+4wise,3,gender,GEN,appearance_body_status|location|age,APP AGE,location,LOC,APP AGE {LOC} | GEN,0.042698006804475164,0.122852716242972,12,12,12,0
+4wise,3,location,LOC,race_ethnicity|gender|disability_status,ETH DIS,gender,GEN,ETH DIS {GEN} | LOC,0.04252866554493936,0.0472572291906979,10,10,10,0
+4wise,3,appearance_body_status,APP,age|gender|disability_status,AGE GEN,disability_status,DIS,AGE GEN {DIS} | APP,0.04186423070818243,0.04708084776173362,12,12,12,0
+4wise,3,location,LOC,race_ethnicity|age|gender,AGE GEN,race_ethnicity,ETH,AGE GEN {ETH} | LOC,0.04176468042135164,0.09298499462413413,12,12,12,0
+4wise,3,age,AGE,location|gender|disability_status,GEN DIS,location,LOC,GEN DIS {LOC} | AGE,0.04141872909009463,0.11007039720163267,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|gender|disability_status,APP DIS,gender,GEN,APP DIS {GEN} | ETH,0.039247353103873756,0.040707320144682646,4,4,4,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|gender,ETH GEN,appearance_body_status,APP,ETH GEN {APP} | LOC,0.038571532544107875,0.03978195620543027,10,10,10,0
+4wise,3,location,LOC,race_ethnicity|gender|disability_status,GEN DIS,race_ethnicity,ETH,GEN DIS {ETH} | LOC,0.03840508069256786,0.08852086998934969,4,4,4,0
+4wise,3,age,AGE,race_ethnicity|gender|disability_status,ETH GEN,disability_status,DIS,ETH GEN {DIS} | AGE,0.03823245875224531,0.04169507834154559,10,10,10,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|gender|disability_status,GEN DIS,appearance_body_status,APP,GEN DIS {APP} | ETH,0.037939324568027205,0.03480623884712558,4,4,4,0
+4wise,3,race_ethnicity,ETH,appearance_body_status|gender|disability_status,APP GEN,disability_status,DIS,APP GEN {DIS} | ETH,0.03752396127929794,0.03835468179204432,4,4,4,0
+4wise,3,gender,GEN,race_ethnicity|location|age,ETH AGE,location,LOC,ETH AGE {LOC} | GEN,0.03675353887121244,0.09885424740607439,30,30,30,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|gender,ETH APP,gender,GEN,ETH APP {GEN} | LOC,0.03566177064995699,0.03716637996896478,10,10,10,0
+4wise,3,gender,GEN,appearance_body_status|age|disability_status,AGE DIS,appearance_body_status,APP,AGE DIS {APP} | GEN,0.03424095039763115,0.033361466007514426,12,12,12,0
+4wise,3,gender,GEN,race_ethnicity|appearance_body_status|age,ETH AGE,appearance_body_status,APP,ETH AGE {APP} | GEN,0.03211824407789276,0.03549192066989391,30,30,30,0
+4wise,3,location,LOC,race_ethnicity|appearance_body_status|gender,APP GEN,race_ethnicity,ETH,APP GEN {ETH} | LOC,0.031837722619839304,0.06331915192815957,4,4,4,0
+4wise,3,location,LOC,appearance_body_status|age|gender,AGE GEN,appearance_body_status,APP,AGE GEN {APP} | LOC,0.02893344707768547,0.0313445027050922,12,12,12,0
+4wise,3,location,LOC,appearance_body_status|gender|disability_status,APP GEN,disability_status,DIS,APP GEN {DIS} | LOC,0.02332229176190262,0.020441049309972148,4,4,4,0
